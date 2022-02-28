@@ -26,8 +26,10 @@
   },
   "dependencies": {
     "@material/mwc-drawer": "^0.25.3",
+    "@material/mwc-icon": "^0.25.3",
     "@material/mwc-icon-button": "^0.25.3",
     "@material/mwc-top-app-bar-fixed": "^0.25.3",
-    "sirv-cli": "^2.0.0"
+    "sirv-cli": "^2.0.0",
+    "svelte-spa-router": "^3.2.0"
   }
 }
