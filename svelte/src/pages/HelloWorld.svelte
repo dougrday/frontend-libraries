@@ -1,26 +1,17 @@
 <script type="ts">
-    import Layout from "./Layout.svelte";
     import "@material/mwc-button";
     import type { Button } from "@material/mwc-button";
     import "@material/mwc-textfield";
     import type { TextField } from "@material/mwc-textfield";
-    import { onMount, onDestroy } from "svelte";
+    import { onDestroy,onMount } from "svelte";
+    import Layout from "./Layout.svelte";
 
     let form: HTMLFormElement;
     let name: TextField;
     let submit: Button;
 
     function checkValidity(): boolean {
-        console.log("validating...");
-        const isValid = form.checkValidity();
-
-        if (isValid && submit.hasAttribute("disabled")) {
-            submit.removeAttribute("disabled");
-        } else if (!submit.hasAttribute("disabled")) {
-            submit.setAttribute("disabled", "");
-        }
-
-        return isValid;
+        return form.checkValidity() && name.checkValidity();
     }
 
     function clearForm(): void {
@@ -39,6 +30,15 @@
         return data;
     }
 
+    function handleFormDataChanged(event: Event) {
+        const isValid = checkValidity();
+        if (isValid && submit.hasAttribute("disabled")) {
+            submit.removeAttribute("disabled");
+        } else if (!isValid && !submit.hasAttribute("disabled")) {
+            submit.setAttribute("disabled", "");
+        }
+    }
+
     function handleKeyup(event: KeyboardEvent) {
         if (event.code === "Enter") {
             event.preventDefault();
@@ -51,7 +51,7 @@
         if (name.validity.valueMissing) {
             name.validationMessage = "Name is required";
         } else if (name.validity.tooShort) {
-            name.validationMessage = "Name must be at least 3 characters long";
+            name.validationMessage = `Name must be at least ${name.getAttribute("minlength")} characters long`;
         } else if (name.validity.customError) {
             name.validationMessage = "Names starting with 'D' must be 'Doug'";
         }
@@ -72,7 +72,8 @@
         clearForm();
     }
 
-    onMount(() => {        
+    onMount(() => {
+        form.addEventListener("change", handleFormDataChanged);
         name.addEventListener("keyup", handleKeyup);
         name.addEventListener("invalid", handleNameInvalid);
         name.validityTransform = (newValue, nativeValidity) => {
@@ -80,7 +81,7 @@
                 return {
                     ...nativeValidity,
                     customError: true,
-                    valid: false
+                    valid: false,
                 };
             }
             return nativeValidity;
@@ -88,6 +89,7 @@
         submit.addEventListener("click", handleSubmit);
     });
     onDestroy(() => {
+        form.removeEventListener("change", handleFormDataChanged);
         name.removeEventListener("keyup", handleKeyup);
         name.removeEventListener("invalid", handleNameInvalid);
         submit.removeEventListener("click", handleSubmit);
@@ -99,18 +101,9 @@
     <div slot="actionItems">
         <mwc-icon-button icon="favorite" />
     </div>
-    <form bind:this={form} on:submit={handleSubmit}>
-        <div class="formgrid">
-            <mwc-textfield
-                bind:this={name}                
-                label="Hello, "
-                minLength="3"
-                name="name"
-                placeholder="Name"
-                required
-            />
-            <mwc-button disabled bind:this={submit} raised>Submit</mwc-button>
-        </div>
+    <form class="formgrid" bind:this={form} on:submit={handleSubmit}>
+        <mwc-textfield bind:this={name} label="Hello, " minLength="2" name="name" placeholder="Name" required />
+        <mwc-button disabled bind:this={submit} raised>Submit</mwc-button>
     </form>
 </Layout>
 
