@@ -44,4 +44,10 @@
 </mwc-drawer>
 
 <style>
+    mwc-drawer,
+    div[slot="appContent"],
+    mwc-top-app-bar-fixed {
+        height: 100%;
+        width: 100%;
+    }
 </style>
