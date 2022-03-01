@@ -1,5 +1,5 @@
-import Home from "./home.svelte";
-import HelloWorld from "./hello-world.svelte";
+import Home from "./Home.svelte";
+import HelloWorld from "./HelloWorld.svelte";
 
 export const routes = {
     // Exact path
