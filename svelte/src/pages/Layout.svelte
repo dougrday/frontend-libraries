@@ -12,7 +12,7 @@
         drawer.open = !drawer.open;
     };
 
-    onMount(async () => {
+    onMount(() => {
         addEventListener("MDCTopAppBar:nav", handleNavigationClick);
     });
 
