@@ -1,4 +1,4 @@
-import HelloWorld from "./HelloWorld.svelte";
+import HelloWorld from "./HelloWorld/index.svelte";
 
 export const routes = {
     "/": HelloWorld,

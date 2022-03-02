@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
@@ -21,13 +22,15 @@ using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
 
 namespace Org.OpenAPITools.Controllers
-{ 
+{
     /// <summary>
     /// 
     /// </summary>
     [ApiController]
     public class HelloWorldApiController : ControllerBase
-    { 
+    {
+        static private List<HelloWorld> messages = new List<HelloWorld>();
+
         /// <summary>
         /// Creates a hello world message.
         /// </summary>
@@ -45,25 +48,16 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(ErrorMessage), description: "The input is malformed.")]
         [SwaggerResponse(statusCode: 401, type: typeof(ErrorMessage), description: "The user is not authenticated with the system.")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorMessage), description: "The user is not authorized to perform this operation.")]
-        public virtual IActionResult CreateHelloWorld([FromBody]SayHelloCommandMessage sayHelloCommandMessage)
+        public virtual IActionResult CreateHelloWorld([FromBody] SayHelloCommandMessage sayHelloCommandMessage)
         {
+            var message = new HelloWorld
+            {
+                Id = Guid.NewGuid(),
+                Name = sayHelloCommandMessage.Name
+            };
+            messages.Add(message);
 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(HelloWorldSaidEventMessage));
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400, default(ErrorMessage));
-            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401, default(ErrorMessage));
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403, default(ErrorMessage));
-            string exampleJson = null;
-            exampleJson = "{\r\n  \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\r\n}";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<HelloWorldSaidEventMessage>(exampleJson)
-            : default(HelloWorldSaidEventMessage);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
+            return new ObjectResult(message);
         }
 
         /// <summary>
@@ -79,25 +73,15 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("DeleteHelloWorld")]
         [SwaggerResponse(statusCode: 200, type: typeof(HelloWorldDeletedEventMessage), description: "The message was deleted.")]
-        public virtual IActionResult DeleteHelloWorld([FromRoute (Name = "helloWorldId")][Required]Guid helloWorldId)
+        public virtual IActionResult DeleteHelloWorld([FromRoute(Name = "helloWorldId")][Required] Guid helloWorldId)
         {
-
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(HelloWorldDeletedEventMessage));
-            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401);
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403);
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-            string exampleJson = null;
-            exampleJson = "{\r\n  \"message\" : {\r\n    \"name\" : \"name\",\r\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\r\n  }\r\n}";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<HelloWorldDeletedEventMessage>(exampleJson)
-            : default(HelloWorldDeletedEventMessage);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var index = messages.FindIndex(m => m.Id == helloWorldId);
+            if (index == -1)
+            {
+                return new NotFoundResult();
+            }
+            messages.RemoveAt(index);
+            return new OkResult();
         }
 
         /// <summary>
@@ -113,25 +97,14 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("GetHelloWorld")]
         [SwaggerResponse(statusCode: 200, type: typeof(HelloWorldByIdQueryResponseMessage), description: "A hello world message.")]
-        public virtual IActionResult GetHelloWorld([FromRoute (Name = "helloWorldId")][Required]Guid helloWorldId)
+        public virtual IActionResult GetHelloWorld([FromRoute(Name = "helloWorldId")][Required] Guid helloWorldId)
         {
-
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(HelloWorldByIdQueryResponseMessage));
-            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401);
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403);
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-            string exampleJson = null;
-            exampleJson = "{\r\n  \"message\" : {\r\n    \"name\" : \"name\",\r\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\r\n  }\r\n}";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<HelloWorldByIdQueryResponseMessage>(exampleJson)
-            : default(HelloWorldByIdQueryResponseMessage);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var message = messages.Find(m => m.Id == helloWorldId);
+            if (message == null)
+            {
+                return new NotFoundResult();
+            }
+            return new ObjectResult(message);
         }
 
         /// <summary>
@@ -151,25 +124,20 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(ErrorMessage), description: "The input is malformed.")]
         [SwaggerResponse(statusCode: 401, type: typeof(ErrorMessage), description: "The user is not authenticated with the system.")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorMessage), description: "The user is not authorized to perform this operation.")]
-        public virtual IActionResult SearchHelloWorlds([FromQuery (Name = "page")]int? page, [FromQuery (Name = "pageSize")][Range(1, 100)]int? pageSize)
+        public virtual IActionResult SearchHelloWorlds([FromQuery(Name = "page")] int? page, [FromQuery(Name = "pageSize")][Range(1, 100)] int? pageSize)
         {
-
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(HelloWorldSearchQueryResponseMessage));
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400, default(ErrorMessage));
-            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401, default(ErrorMessage));
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403, default(ErrorMessage));
-            string exampleJson = null;
-            exampleJson = "{\r\n  \"pagination\" : {\r\n    \"totalResults\" : 1,\r\n    \"pageSize\" : 6,\r\n    \"page\" : 0\r\n  },\r\n  \"results\" : [ {\r\n    \"name\" : \"name\",\r\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\r\n  }, {\r\n    \"name\" : \"name\",\r\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\r\n  } ]\r\n}";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<HelloWorldSearchQueryResponseMessage>(exampleJson)
-            : default(HelloWorldSearchQueryResponseMessage);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
+            int queryPage = page != null && page.HasValue ? page.Value : 0;
+            int queryPageSize = pageSize != null && pageSize.HasValue ? pageSize.Value : 10;
+            var result = new HelloWorldSearchQueryResponseMessage
+            {
+                Pagination = new HelloWorldSearchQueryResponseMessagePagination {
+                    Page = queryPage,
+                    PageSize = queryPageSize,
+                    TotalResults = messages.Count
+                },
+                Results = messages.Skip(queryPage).Take(queryPageSize).ToList()
+            };
+            return new ObjectResult(result);
         }
 
         /// <summary>
@@ -191,27 +159,15 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 401, type: typeof(ErrorMessage), description: "The user is not authenticated with the system.")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorMessage), description: "The user is not authorized to perform this operation.")]
         [SwaggerResponse(statusCode: 404, type: typeof(ErrorMessage), description: "The specified resource was not found.")]
-        public virtual IActionResult UpdateHelloWorld([FromBody]UpdateHelloCommandMessage updateHelloCommandMessage)
+        public virtual IActionResult UpdateHelloWorld([FromBody] UpdateHelloCommandMessage updateHelloCommandMessage)
         {
-
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(HelloWorldUpdatedEventMessage));
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400, default(ErrorMessage));
-            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401, default(ErrorMessage));
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403, default(ErrorMessage));
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404, default(ErrorMessage));
-            string exampleJson = null;
-            exampleJson = "{\r\n  \"message\" : {\r\n    \"name\" : \"name\",\r\n    \"id\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"\r\n  }\r\n}";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<HelloWorldUpdatedEventMessage>(exampleJson)
-            : default(HelloWorldUpdatedEventMessage);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var message = messages.Find(m => m.Id == updateHelloCommandMessage.Id);
+            if (message == null)
+            {
+                return new NotFoundResult();
+            }
+            message.Name = updateHelloCommandMessage.Name;
+            return new OkResult();
         }
     }
 }

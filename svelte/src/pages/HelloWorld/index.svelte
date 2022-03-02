@@ -1,7 +1,7 @@
 <script type="ts">
-    import HelloWorldForm from "../components/hello-world/HelloWorldForm.svelte";
-    import HelloWorldList from "../components/hello-world/HelloWorldList.svelte";
-    import Layout from "./Layout.svelte";
+    import HelloWorldForm from "./HelloWorldForm.svelte";
+    import HelloWorldList from "./HelloWorldList.svelte";
+    import Layout from "../Layout.svelte";
 </script>
 
 <Layout>
