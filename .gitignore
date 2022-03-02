@@ -7,4 +7,5 @@ server/src/Org.OpenAPITools/*
 !server/.openapi-generator-ignore
 !server/src
 !server/src/Org.OpenAPITools
+!server/src/Org.OpenAPITools/Startup.cs
 !server/src/Org.OpenAPITools/Controllers
