@@ -7,7 +7,7 @@
         .subscribe(response => {
             messages.update(() => response.results);
             pagination.update(() => response.pagination);
-        })
+        });
 </script>
 
 <main>    
