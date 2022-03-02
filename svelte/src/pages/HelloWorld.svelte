@@ -5,10 +5,8 @@
     import type { TextField } from "@material/mwc-textfield";
     import { onDestroy, onMount, tick } from "svelte";
     import Layout from "./Layout.svelte";
-    import { HelloWorldApi } from "../generated/hello-world";
-    import configuration from "../api-configuration";
+    import { helloWorldApi } from "../api";
 
-    const helloWorldApi = new HelloWorldApi(configuration);
     let isValid = false;
     let form: HTMLFormElement;
     let name: TextField;
