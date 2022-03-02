@@ -9,9 +9,9 @@
     import configuration from "../api-configuration";
 
     const helloWorldApi = new HelloWorldApi(configuration);
+    let isValid = false;
     let form: HTMLFormElement;
     let name: TextField;
-    let submit: Button;
 
     function checkValidity(): boolean {
         return form.checkValidity() && name.checkValidity();
@@ -32,12 +32,7 @@
     }
 
     function handleFormDataChanged(event: Event) {
-        const isValid = checkValidity();
-        if (isValid && submit.hasAttribute("disabled")) {
-            submit.removeAttribute("disabled");
-        } else if (!isValid && !submit.hasAttribute("disabled")) {
-            submit.setAttribute("disabled", "");
-        }
+        isValid = checkValidity();
     }
 
     function handleKeyup(event: KeyboardEvent) {
@@ -85,7 +80,6 @@
             }
             return nativeValidity;
         };
-        submit.addEventListener("click", handleSubmit);
 
         await tick();
         name.focus();
@@ -94,7 +88,6 @@
         form.removeEventListener("change", handleFormDataChanged);
         name.removeEventListener("keyup", handleKeyup);
         name.removeEventListener("invalid", handleNameInvalid);
-        submit.removeEventListener("click", handleSubmit);
     });
 </script>
 
@@ -105,7 +98,7 @@
     </div>
     <form class="formgrid" bind:this={form} on:submit={handleSubmit}>
         <mwc-textfield bind:this={name} label="Hello, " minLength="2" name="name" placeholder="Name" required />
-        <mwc-button disabled bind:this={submit} raised>Submit</mwc-button>
+        <mwc-button disabled={!isValid} raised on:click={handleSubmit}>Submit</mwc-button>
     </form>
 </Layout>
 
