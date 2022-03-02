@@ -6,7 +6,7 @@ interface Middleware {
 }
 
 export default {
-    basePath: "http://localhost:3000",
+    basePath: "http://localhost:5000",
     middleware: [] as Middleware[],
     username: null,
     password: null,

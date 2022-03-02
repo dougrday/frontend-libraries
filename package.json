@@ -1,0 +1,17 @@
+{
+    "name": "frontend-tests",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "server": "cd server && docker build -t backend-server -f ./src/Org.OpenAPITools/Dockerfile . && docker run -d -p 5000:8080 backend-server",
+        "start": "concurrently \"npm run server\" \"npm run svelte\"",        
+        "svelte": "cd svelte && npm i && npm run dev",
+        "postinstall": "openapi-generator-cli generate -i openapi.yml -g aspnetcore -o ./server"
+    },
+    "devDependencies": {
+        "concurrently": "^7.0.0",
+        "@openapitools/openapi-generator-cli": "^2.4.26"
+    },
+    "dependencies": {
+    }
+}
