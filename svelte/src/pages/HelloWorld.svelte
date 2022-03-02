@@ -5,7 +5,10 @@
     import type { TextField } from "@material/mwc-textfield";
     import { onDestroy,onMount } from "svelte";
     import Layout from "./Layout.svelte";
+    import { HelloWorldApi } from "../generated/hello-world";
+    import configuration from "../api-configuration";
 
+    const helloWorldApi = new HelloWorldApi(configuration);
     let form: HTMLFormElement;
     let name: TextField;
     let submit: Button;
@@ -15,10 +18,8 @@
     }
 
     function clearForm(): void {
-        // If successful, clear form
-        form.querySelectorAll("mwc-textfield").forEach((field: TextField) => {
-            field.value = "";
-        });
+        name.value = "";
+        name.focus();
     }
 
     function getFormData(): any {
@@ -65,11 +66,11 @@
             return;
         }
 
-        const data = getFormData();
-        console.log(data);
-
         // If succcessful, send data to server
-        clearForm();
+        const data = getFormData();
+        helloWorldApi
+            .createHelloWorld({ sayHelloCommandMessage: data })
+            .subscribe(() => clearForm());
     }
 
     onMount(() => {
