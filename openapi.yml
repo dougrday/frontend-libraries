@@ -206,11 +206,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HelloWorld'
-servers:
-  - url: 'https://service.mastercontrollabs.com'
-    description: Production server
-  - url: 'https://service.mcre-internal-x89k9w.mcresearchlabs.net'
-    description: Staging server
 paths:
   /hello-world:
     get:

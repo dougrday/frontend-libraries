@@ -1,10 +1,7 @@
-import Home from "./Home.svelte";
 import HelloWorld from "./HelloWorld.svelte";
 
 export const routes = {
-    // Exact path
-    "/": Home,
-
+    "/": HelloWorld,
     "/hello-world": HelloWorld,
 
     // Using named parameters, with last being optional

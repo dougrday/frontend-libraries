@@ -3,7 +3,7 @@
     import type { Button } from "@material/mwc-button";
     import "@material/mwc-textfield";
     import type { TextField } from "@material/mwc-textfield";
-    import { onDestroy,onMount } from "svelte";
+    import { onDestroy, onMount, tick } from "svelte";
     import Layout from "./Layout.svelte";
     import { HelloWorldApi } from "../generated/hello-world";
     import configuration from "../api-configuration";
@@ -68,12 +68,10 @@
 
         // If succcessful, send data to server
         const data = getFormData();
-        helloWorldApi
-            .createHelloWorld({ sayHelloCommandMessage: data })
-            .subscribe(() => clearForm());
+        helloWorldApi.createHelloWorld({ sayHelloCommandMessage: data }).subscribe(() => clearForm());
     }
 
-    onMount(() => {
+    onMount(async () => {
         form.addEventListener("change", handleFormDataChanged);
         name.addEventListener("keyup", handleKeyup);
         name.addEventListener("invalid", handleNameInvalid);
@@ -88,6 +86,9 @@
             return nativeValidity;
         };
         submit.addEventListener("click", handleSubmit);
+
+        await tick();
+        name.focus();
     });
     onDestroy(() => {
         form.removeEventListener("change", handleFormDataChanged);
