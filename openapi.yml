@@ -1,0 +1,337 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Hello World API
+  description: A "Hello World!" API
+tags:
+  - name: hello-world
+    description: A "Hello World!" API
+components:
+  parameters:
+    connectionId:
+      in: header
+      name: X-Connection-Id
+      required: false
+      schema:
+        type: string
+      description: 'The connection ID of the client''s websocket connection, used to return information in an asynchronous way.'
+    helloWorldId:
+      in: path
+      name: helloWorldId
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The ID of the hello world message.
+    nonce:
+      in: header
+      name: X-Nonce
+      required: false
+      schema:
+        type: string
+      description: |
+        A unique string provided by the caller.
+        If provided, it is provided in the returned metadata.
+        Usually used for security purposes.
+    page:
+      in: query
+      name: page
+      required: false
+      schema:
+        type: integer
+        default: 0
+      description: The page to retrieve.
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        default: 20
+        minimum: 1
+        maximum: 100
+      description: The number of results included per page.
+  responses:
+    Forbidden:
+      description: The user is not authorized to perform this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
+    InputMalformed:
+      description: The input is malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
+    NotAuthenticated:
+      description: The user is not authenticated with the system.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
+  securitySchemes:
+    userAuth:
+      type: openIdConnect
+      openIdConnectUrl: 'https://mclabstest.oktapreview.com/oauth2/default/.well-known/openid-configuration'
+  schemas:
+    ErrorModel:
+      type: object
+      description: An error.
+      required:
+        - errorCode
+      properties:
+        description:
+          description: 'A description of the error in English. This message is not intended to be displayed directly to users, but to help API consumers better understand the error.'
+          type: string
+        errorCode:
+          description: A unique code that identifies the error.
+          type: string
+        keys:
+          description: A list of (usually unique) keys associated with the error.
+          type: array
+          items:
+            type: string
+    ErrorMessage:
+      type: object
+      description: An error message.
+      properties:
+        errors:
+          description: A list of errors.
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+    SayHelloCommandMessage:
+      type: object
+      description: A command used to say hello.
+      required:
+        - name
+      properties:
+        name:
+          description: The name of the person or thing you're greeting.
+          type: string
+    UpdateHelloCommandMessage:
+      type: object
+      description: A command used to update an existing hello message.
+      required:
+        - id
+        - name
+      properties:
+        id:
+          description: A unique identifier for the hello world message to be updated.
+          type: string
+          format: uuid
+        name:
+          description: The name of the person or thing you're greeting.
+          type: string
+    HelloWorldDeletedEventMessage:
+      type: object
+      description: An event that occurs when a hello world message is deleted.
+      required:
+        - message
+      properties:
+        message:
+          $ref: '#/components/schemas/HelloWorld'
+    HelloWorldSaidEventMessage:
+      type: object
+      description: An event that occurs when someone says hello.
+      required:
+        - id
+      properties:
+        id:
+          description: A unique identifier for the hello world message.
+          type: string
+          format: uuid
+    HelloWorldUpdatedEventMessage:
+      type: object
+      description: An event that occurs when someone updates an existing hello world message.
+      required:
+        - message
+      properties:
+        message:
+          $ref: '#/components/schemas/HelloWorld'
+    HelloWorld:
+      type: object
+      description: A hello world message.
+      required:
+        - id
+        - name
+      properties:
+        id:
+          description: A unique identifier for the hello world message.
+          type: string
+          format: uuid
+        name:
+          description: The name of the person or thing you're greeting.
+          type: string
+    HelloWorldByIdQueryResponseMessage:
+      type: object
+      description: A query response that contains a single hello world message.
+      required:
+        - message
+      properties:
+        message:
+          $ref: '#/components/schemas/HelloWorld'
+    HelloWorldSearchQueryResponseMessage:
+      type: object
+      description: A search response for hello world messages.
+      required:
+        - pagination
+        - results
+      properties:
+        pagination:
+          type: object
+          description: Pagination data
+          required:
+            - page
+            - pageSize
+            - totalResults
+          properties:
+            page:
+              description: The page that was queried.
+              type: integer
+            pageSize:
+              description: The number of items included in each page.
+              type: integer
+            totalResults:
+              description: The total number of items that match the query criteria.
+              type: integer
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HelloWorld'
+servers:
+  - url: 'https://service.mastercontrollabs.com'
+    description: Production server
+  - url: 'https://service.mcre-internal-x89k9w.mcresearchlabs.net'
+    description: Staging server
+paths:
+  /hello-world:
+    get:
+      summary: Searchs for hello world messages.
+      operationId: searchHelloWorlds
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/pageSize'
+      responses:
+        '200':
+          description: A search response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloWorldSearchQueryResponseMessage'
+        '400':
+          $ref: '#/components/responses/InputMalformed'
+        '401':
+          $ref: '#/components/responses/NotAuthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      security:
+        - userAuth: []
+      tags:
+        - hello-world
+    post:
+      summary: Creates a hello world message.
+      operationId: createHelloWorld
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SayHelloCommandMessage'
+      responses:
+        '200':
+          description: The hello world message was created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloWorldSaidEventMessage'
+        '400':
+          $ref: '#/components/responses/InputMalformed'
+        '401':
+          $ref: '#/components/responses/NotAuthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      security:
+        - userAuth: []
+      tags:
+        - hello-world
+    put:
+      summary: Updates an existing hello world message.
+      operationId: updateHelloWorld
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateHelloCommandMessage'
+      responses:
+        '200':
+          description: The hello world message was updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloWorldUpdatedEventMessage'
+        '400':
+          $ref: '#/components/responses/InputMalformed'
+        '401':
+          $ref: '#/components/responses/NotAuthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      security:
+        - userAuth: []
+      tags:
+        - hello-world
+  '/hello-world/{helloWorldId}':
+    delete:
+      summary: Deletes a hello world message.
+      operationId: deleteHelloWorld
+      parameters:
+        - $ref: '#/components/parameters/helloWorldId'
+      responses:
+        '200':
+          description: The message was deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloWorldDeletedEventMessage'
+        '401':
+          description: The user is not authenticated.
+        '403':
+          description: The user is not authorized to view this information.
+        '404':
+          description: The hello world message was not found.
+      security:
+        - userAuth: []
+      tags:
+        - hello-world
+    get:
+      summary: Gets a hello world message.
+      operationId: getHelloWorld
+      parameters:
+        - $ref: '#/components/parameters/helloWorldId'
+      responses:
+        '200':
+          description: A hello world message.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloWorldByIdQueryResponseMessage'
+        '401':
+          description: The user is not authenticated.
+        '403':
+          description: The user is not authorized to view this information.
+        '404':
+          description: The hello world message was not found.
+      security:
+        - userAuth: []
+      tags:
+        - hello-world

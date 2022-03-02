@@ -1,0 +1,22 @@
+{
+  "name": "@mastercontrolinc/hello-world-api",
+  "version": "1.0.0",
+  "description": "OpenAPI client for @mastercontrolinc/hello-world-api",
+  "author": "OpenAPI-Generator",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts" : {
+    "build": "node_modules/.bin/tsc --outDir dist/",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "rxjs": "~6.6.7"
+  },
+  "devDependencies": {
+    "typescript": "^3.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MasterControlInc/api-directory.git"
+  }
+}
