@@ -4,6 +4,7 @@
     import type { TextField } from "@material/mwc-textfield";
     import { onDestroy, onMount, tick } from "svelte";
     import { helloWorldApi } from "../../api";
+    import { messages } from "../../stores/hello-world";
 
     let isValid = false;
     let form: HTMLFormElement;
@@ -59,7 +60,10 @@
 
         // If succcessful, send data to server
         const data = getFormData();
-        helloWorldApi.createHelloWorld({ sayHelloCommandMessage: data }).subscribe(() => clearForm());
+        helloWorldApi.createHelloWorld({ sayHelloCommandMessage: data }).subscribe((response) => {
+            messages.update((m) => m.concat(response.message));
+            clearForm();
+        });
     }
 
     onMount(async () => {
@@ -88,7 +92,9 @@
 </script>
 
 <form bind:this={form} on:submit={handleSubmit}>
-    <div class="spaced"><mwc-textfield bind:this={name} label="Hello, " minLength="2" name="name" placeholder="Name" required /></div>
+    <div class="spaced"
+        ><mwc-textfield bind:this={name} label="Hello, " minLength="2" name="name" placeholder="Name" required /></div
+    >
     <div class="right"><mwc-button disabled={!isValid} raised on:click={handleSubmit}>Submit</mwc-button></div>
 </form>
 

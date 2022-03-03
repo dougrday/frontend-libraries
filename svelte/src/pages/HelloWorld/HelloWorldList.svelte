@@ -5,12 +5,12 @@
     import { messages, pagination } from "../../stores/hello-world";
 
     helloWorldApi.searchHelloWorlds({ page: 0, pageSize: 100 }).subscribe((response) => {
-        messages.update(() => response.results);
-        pagination.update(() => response.pagination);
+        messages.set(response.results);
+        pagination.set(response.pagination);
     });
 </script>
 
-<mwc-list multi>
+<mwc-list>
     {#each $messages as message, messageIndex}
         {#if messageIndex > 0}
             <li divider role="separator" />
