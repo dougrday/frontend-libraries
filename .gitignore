@@ -1,5 +1,6 @@
 **/node_modules
 **/generated
+**/out
 **/tmp
 server/*
 server/src/*

@@ -2,7 +2,7 @@ import type { AjaxRequest, AjaxResponse } from "rxjs/ajax";
 
 interface Middleware {
     pre?(request: AjaxRequest): AjaxRequest;
-    post?(response: AjaxResponse<any>): AjaxResponse<any>;
+    post?(response: AjaxResponse): AjaxResponse;
 }
 
 export default {
