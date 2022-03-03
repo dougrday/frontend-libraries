@@ -5,6 +5,7 @@ import type { Drawer } from "@material/mwc-drawer";
 import "@material/mwc-icon";
 import "@material/mwc-icon-button";
 import "@material/mwc-top-app-bar-fixed";
+import { Link, Outlet } from "react-router-dom";
 
 declare global {
     namespace JSX {
@@ -43,23 +44,21 @@ function App() {
             <div>
                 <ul>
                     <li>
-                        <a href="#/">
+                        <Link to="/home">
                             <mwc-icon>home</mwc-icon> Home
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="#/hello-world">
+                        <Link to="/hello-world">
                             <mwc-icon>language</mwc-icon> Hello World!
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </div>
             <div slot="appContent">
                 <mwc-top-app-bar-fixed dense>
-                    <slot name="title" slot="title" />
-                    <slot name="actionItems" slot="actionItems" />
                     <mwc-icon-button icon="menu" slot="navigationIcon" />
-                    <slot />
+                    <Outlet />
                 </mwc-top-app-bar-fixed>
             </div>
         </mwc-drawer>
