@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
-import "./App.css";
 import "@material/mwc-drawer";
 import type { Drawer } from "@material/mwc-drawer";
 import "@material/mwc-icon";
 import "@material/mwc-icon-button";
 import "@material/mwc-top-app-bar-fixed";
 import { Link, Outlet } from "react-router-dom";
+import { useTitle } from "../utils/hooks";
 
 declare global {
     namespace JSX {
@@ -18,7 +18,7 @@ declare global {
     }
 }
 
-function App() {
+function Layout() {
     const drawerRef = useRef<Drawer>();
 
     const handleNavigationClick = () => {
@@ -57,6 +57,8 @@ function App() {
             </div>
             <div slot="appContent">
                 <mwc-top-app-bar-fixed dense>
+                    <div id="layout-title" slot="title"></div>
+                    <div id="layout-actionItems" slot="actionItems"></div>
                     <mwc-icon-button icon="menu" slot="navigationIcon" />
                     <Outlet />
                 </mwc-top-app-bar-fixed>
@@ -65,4 +67,4 @@ function App() {
     );
 }
 
-export default App;
+export default Layout;

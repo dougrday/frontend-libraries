@@ -1,17 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./pages/Layout";
+import HelloWorld from "./pages/HelloWorld";
+import Home from "./pages/Home";
 
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<App />}>
-                    <Route path="home" element={<h1>Home</h1>} />
-                    <Route path="hello-world" element={<h1>Hello World!</h1>} />
+                <Route path="/" element={<Layout />}>
+                    <Route path="home" element={<Home />} />
+                    <Route path="hello-world" element={<HelloWorld />} />
                 </Route>
             </Routes>
         </BrowserRouter>
