@@ -10,16 +10,25 @@
         <mwc-icon-button icon="favorite" />
     </div>
     <div class="container">
-        <HelloWorldForm />
-        <HelloWorldList />
+        <div class="mdc-card">
+            <HelloWorldForm />
+        </div>
+        <div class="mdc-card">
+            <HelloWorldList />
+        </div>
     </div>
 </Layout>
+
 <style>
     .container {
+        align-items: flex-start;
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: 250px 1fr;
         grid-gap: 16px;
-        justify-items: center;
         margin: 16px;
+    }
+
+    .mdc-card {
+        padding: 16px;
     }
 </style>
