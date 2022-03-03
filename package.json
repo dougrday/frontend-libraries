@@ -10,9 +10,7 @@
         "svelte": "cd svelte && npm i && npm run dev"
     },
     "devDependencies": {
-        "concurrently": "^7.0.0",
-        "@openapitools/openapi-generator-cli": "^2.4.26"
-    },
-    "dependencies": {
+        "@openapitools/openapi-generator-cli": "^2.4.26",
+        "concurrently": "^7.0.0"
     }
 }

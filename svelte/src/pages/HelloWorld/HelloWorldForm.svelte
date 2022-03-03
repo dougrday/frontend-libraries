@@ -87,17 +87,17 @@
     });
 </script>
 
-<form class="formgrid" bind:this={form} on:submit={handleSubmit}>
-    <mwc-textfield bind:this={name} label="Hello, " minLength="2" name="name" placeholder="Name" required />
-    <mwc-button disabled={!isValid} raised on:click={handleSubmit}>Submit</mwc-button>
+<form bind:this={form} on:submit={handleSubmit}>
+    <div class="formfield"><mwc-textfield bind:this={name} label="Hello, " minLength="2" name="name" placeholder="Name" required /></div>
+    <div class="formfield right"><mwc-button disabled={!isValid} raised on:click={handleSubmit}>Submit</mwc-button></div>
 </form>
 
 <style>
-    .formgrid {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-gap: 16px;
-        justify-items: center;
-        margin: 16px;
+    .formfield {
+        margin-bottom: 16px;
+    }
+    
+    .right {
+        text-align: right;
     }
 </style>
