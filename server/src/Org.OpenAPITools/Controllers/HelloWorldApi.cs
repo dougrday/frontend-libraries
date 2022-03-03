@@ -57,7 +57,10 @@ namespace Org.OpenAPITools.Controllers
             };
             messages.Add(message);
 
-            return new ObjectResult(message);
+            return new ObjectResult(new HelloWorldSaidEventMessage
+            {
+                Message = message
+            });
         }
 
         /// <summary>
