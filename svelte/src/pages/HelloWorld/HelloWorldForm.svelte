@@ -88,15 +88,15 @@
 </script>
 
 <form bind:this={form} on:submit={handleSubmit}>
-    <div class="formfield"><mwc-textfield bind:this={name} label="Hello, " minLength="2" name="name" placeholder="Name" required /></div>
-    <div class="formfield right"><mwc-button disabled={!isValid} raised on:click={handleSubmit}>Submit</mwc-button></div>
+    <div class="spaced"><mwc-textfield bind:this={name} label="Hello, " minLength="2" name="name" placeholder="Name" required /></div>
+    <div class="right"><mwc-button disabled={!isValid} raised on:click={handleSubmit}>Submit</mwc-button></div>
 </form>
 
 <style>
-    .formfield {
+    .spaced {
         margin-bottom: 16px;
     }
-    
+
     .right {
         text-align: right;
     }

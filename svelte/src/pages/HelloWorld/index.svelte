@@ -10,7 +10,7 @@
         <mwc-icon-button icon="favorite" />
     </div>
     <div class="container">
-        <div class="mdc-card">
+        <div class="mdc-card padded">
             <HelloWorldForm />
         </div>
         <div class="mdc-card">
@@ -28,7 +28,7 @@
         margin: 16px;
     }
 
-    .mdc-card {
+    .padded {
         padding: 16px;
     }
 </style>

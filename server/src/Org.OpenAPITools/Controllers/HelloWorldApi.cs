@@ -130,7 +130,8 @@ namespace Org.OpenAPITools.Controllers
             int queryPageSize = pageSize != null && pageSize.HasValue ? pageSize.Value : 10;
             var result = new HelloWorldSearchQueryResponseMessage
             {
-                Pagination = new HelloWorldSearchQueryResponseMessagePagination {
+                Pagination = new HelloWorldSearchQueryResponseMessagePagination
+                {
                     Page = queryPage,
                     PageSize = queryPageSize,
                     TotalResults = messages.Count
