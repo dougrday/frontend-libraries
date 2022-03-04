@@ -30,7 +30,14 @@ class HelloWorldService {
         return helloWorldApi.createHelloWorld(request).pipe(
             shareReplay(1),
             tap(({ message }) => {
-                this.messages.update((m) => m.concat(message));
+                this.messages.update((m) => {
+                    const loadedMessages = (this.pagination.page + 1) * this.pagination.pageSize;
+                    if (m.length < loadedMessages) {
+                        // Still within the current page
+                        return m.concat(message);
+                    }
+                    return m;
+                });
             }),
         );
     }
@@ -63,8 +70,8 @@ class HelloWorldService {
                         const previous = m.slice(0, (this.pagination.page + 1) * this.pagination.pageSize);
                         return previous.concat(results);
                     });
-                    if (results.length === pagination.pageSize) {
-                        // Only increment a page if you've got enough data to justify it
+                    if (results.length > 0) {
+                        // Only increment a page if you've got data
                         this.pagination.page = pagination.page;
                     }
                 }),
