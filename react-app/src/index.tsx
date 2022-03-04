@@ -4,8 +4,8 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./pages/Layout";
-import HelloWorld from "./pages/HelloWorld";
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
+import HelloWorld from "./pages/HelloWorld/HelloWorld";
 
 ReactDOM.render(
     <React.StrictMode>

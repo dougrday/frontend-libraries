@@ -5,7 +5,6 @@ import "@material/mwc-icon";
 import "@material/mwc-icon-button";
 import "@material/mwc-top-app-bar-fixed";
 import { Link, Outlet } from "react-router-dom";
-import { useTitle } from "../utils/hooks";
 
 declare global {
     namespace JSX {

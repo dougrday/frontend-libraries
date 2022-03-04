@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.grid {
+    align-items: flex-start;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-gap: 16px;
+    margin: 16px;
+}
+
+.mdc-card.list {
+    max-width: 400px;
+    min-width: 250px;
+    width: max-content;
+}
+
+.padded {
+    padding: 16px;
+}
+
+@media (max-width: 600px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
