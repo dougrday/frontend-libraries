@@ -1,3 +1,4 @@
+import { BehaviorSubject } from "rxjs";
 import { shareReplay, tap } from "rxjs/operators";
 import { writable } from "svelte/store";
 import { helloWorldApi } from "../api";
@@ -9,6 +10,7 @@ import {
 import { HelloWorld } from "../generated/hello-world/models/HelloWorld";
 
 class HelloWorldService {
+    public hasMessages = new BehaviorSubject(false);
     public messages = writable<HelloWorld[]>([]);
     private pagination: HelloWorldSearchQueryResponseMessagePagination = {
         page: 0,
@@ -16,20 +18,9 @@ class HelloWorldService {
         totalResults: 0,
     };
 
-    deleteHelloWorld(request: DeleteHelloWorldRequest) {
-        return helloWorldApi.deleteHelloWorld(request).pipe(
-            shareReplay(1),
-            tap(() => {
-                // Ensure if new data is loaded, we start from
-                // the beginning
-                this.pagination.page = -1;
-                this.messages.update((m) => {
-                    const index = m.findIndex((m) => m.id === request.helloWorldId);
-                    m.splice(index, 1);
-                    return m;
-                });
-            }),
-        );
+    constructor() {
+        // Keep "hasMessages" up-to-date
+        this.messages.subscribe((m) => this.hasMessages.next(m.length > 0));
     }
 
     createHelloWorld(request: CreateHelloWorldRequest) {
@@ -42,6 +33,22 @@ class HelloWorldService {
                         // Still within the current page
                         return m.concat(message);
                     }
+                    return m;
+                });
+            }),
+        );
+    }
+
+    deleteHelloWorld(request: DeleteHelloWorldRequest) {
+        return helloWorldApi.deleteHelloWorld(request).pipe(
+            shareReplay(1),
+            tap(() => {
+                // Ensure if new data is loaded, we start from
+                // the beginning
+                this.pagination.page = -1;
+                this.messages.update((m) => {
+                    const index = m.findIndex((m) => m.id === request.helloWorldId);
+                    m.splice(index, 1);
                     return m;
                 });
             }),

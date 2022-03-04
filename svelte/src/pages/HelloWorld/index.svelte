@@ -2,6 +2,10 @@
     import HelloWorldForm from "./HelloWorldForm.svelte";
     import HelloWorldList from "./HelloWorldList.svelte";
     import Layout from "../Layout.svelte";
+    import { helloWorldService } from "../../services/hello-world.service";
+
+    helloWorldService.searchHelloWorlds().subscribe();
+    let hasMessages = helloWorldService.hasMessages;
 </script>
 
 <Layout>
@@ -17,12 +21,14 @@
                     <HelloWorldForm />
                 </div>
             </div>
-            <div>
-                <h2>Who's Said Hello</h2>
-                <div class="mdc-card list">
-                    <HelloWorldList />
+            {#if $hasMessages}
+                <div>
+                    <h2>Who's Said Hello</h2>
+                    <div class="mdc-card list">
+                        <HelloWorldList />
+                    </div>
                 </div>
-            </div>
+            {/if}
         </div>
     </div>
 </Layout>

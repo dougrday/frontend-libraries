@@ -4,7 +4,6 @@
     import "@material/mwc-list/mwc-list-item.js";
     import { helloWorldService } from "../../services/hello-world.service";
 
-    helloWorldService.searchHelloWorlds().subscribe();
     function handleClickDelete(helloWorldId: string) {
         helloWorldService.deleteHelloWorld({ helloWorldId }).subscribe();
     }
