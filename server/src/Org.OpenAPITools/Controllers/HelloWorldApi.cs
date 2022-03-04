@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Controllers
                     PageSize = queryPageSize,
                     TotalResults = messages.Count
                 },
-                Results = messages.Skip(queryPage).Take(queryPageSize).ToList()
+                Results = messages.Skip(queryPage * queryPageSize).Take(queryPageSize).ToList()
             };
             return new ObjectResult(result);
         }

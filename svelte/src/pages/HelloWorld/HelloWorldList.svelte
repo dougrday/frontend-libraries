@@ -2,38 +2,38 @@
     import "@material/mwc-icon";
     import "@material/mwc-list/mwc-list.js";
     import "@material/mwc-list/mwc-list-item.js";
-    import { helloWorldApi } from "../../api";
-    import { messages, pagination } from "../../stores/hello-world";
+    import { helloWorldService } from "../../services/hello-world.service";
 
-    helloWorldApi.searchHelloWorlds({ page: 0, pageSize: 100 }).subscribe((response) => {
-        messages.set(response.results);
-        pagination.set(response.pagination);
-    });
-
+    helloWorldService.searchHelloWorlds().subscribe();
     function handleClickDelete(helloWorldId: string) {
-        helloWorldApi.deleteHelloWorld({ helloWorldId }).subscribe((response) => {
-            messages.update((m) => {
-                const index = m.findIndex((m) => m.id === helloWorldId);
-                m.splice(index, 1);
-                return m;
-            });
-        });
+        helloWorldService.deleteHelloWorld({ helloWorldId }).subscribe();
     }
+
+    let messages = helloWorldService.messages;
 </script>
 
-<mwc-list rootTabbable>
-    {#each $messages as message, messageIndex}
-        {#if messageIndex > 0}
-            <li divider role="separator" />
-        {/if}
-        <mwc-list-item tabindex="0" hasMeta>
-            <span>Hello, {message.name}!</span>
-            <mwc-icon on:click|once={() => handleClickDelete(message.id)} slot="meta">delete</mwc-icon>
-        </mwc-list-item>
-    {/each}
-</mwc-list>
+<div class="items">
+    <mwc-list rootTabbable>
+        {#each $messages as message, messageIndex}
+            {#if messageIndex > 0}
+                <li divider role="separator" />
+            {/if}
+            <mwc-list-item tabindex="0" hasMeta>
+                <span>Hello, {message.name}!</span>
+                <mwc-icon on:click={() => handleClickDelete(message.id)} slot="meta">delete</mwc-icon>
+            </mwc-list-item>
+        {/each}
+    </mwc-list>
+    <mwc-button fullwidth on:click={() => helloWorldService.searchNext().subscribe()}>Load more</mwc-button>
+</div>
 
 <style>
+    .items {
+        align-items: stretch;
+        display: flex;
+        flex-direction: column;
+    }
+
     mwc-list-item mwc-icon {
         visibility: hidden;
     }

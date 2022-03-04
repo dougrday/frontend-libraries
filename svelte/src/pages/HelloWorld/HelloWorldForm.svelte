@@ -3,8 +3,7 @@
     import "@material/mwc-textfield";
     import type { TextField } from "@material/mwc-textfield";
     import { onDestroy, onMount, tick } from "svelte";
-    import { helloWorldApi } from "../../api";
-    import { messages } from "../../stores/hello-world";
+    import { helloWorldService } from "../../services/hello-world.service";
 
     let isValid = false;
     let form: HTMLFormElement;
@@ -40,6 +39,8 @@
     }
 
     function handleNameInvalid(event: InputEvent) {
+        isValid = false;
+
         name.validationMessage = "";
         if (name.validity.valueMissing) {
             name.validationMessage = "Name is required";
@@ -59,8 +60,7 @@
 
         // If succcessful, send data to server
         const data = getFormData();
-        helloWorldApi.createHelloWorld({ sayHelloCommandMessage: data }).subscribe((response) => {
-            messages.update((m) => m.concat(response.message));
+        helloWorldService.createHelloWorld({ sayHelloCommandMessage: data }).subscribe(() => {
             clearForm();
         });
     }
@@ -91,9 +91,17 @@
 </script>
 
 <form bind:this={form} on:submit={handleSubmit}>
-    <div class="spaced"
-        ><mwc-textfield bind:this={name} label="Hello, " minLength="2" name="name" placeholder="Name" required /></div
-    >
+    <div class="spaced">
+        <mwc-textfield
+            bind:this={name}
+            label="Hello, "
+            minLength="2"
+            name="name"
+            placeholder="Name"
+            required
+            autoValidate
+        />
+    </div>
     <div class="right"><mwc-button disabled={!isValid} raised on:click={handleSubmit}>Submit</mwc-button></div>
 </form>
 
