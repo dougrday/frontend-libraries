@@ -10,17 +10,30 @@
         <mwc-icon-button icon="favorite" />
     </div>
     <div class="container">
-        <div class="mdc-card padded">
-            <HelloWorldForm />
-        </div>
-        <div class="mdc-card">
-            <HelloWorldList />
+        <div class="grid">
+            <div>
+                <h2>Say Hello</h2>
+                <div class="mdc-card padded">
+                    <HelloWorldForm />
+                </div>
+            </div>
+            <div>
+                <h2>Who's Said Hello</h2>
+                <div class="mdc-card list">
+                    <HelloWorldList />
+                </div>
+            </div>
         </div>
     </div>
 </Layout>
 
 <style>
     .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .grid {
         align-items: flex-start;
         display: grid;
         grid-template-columns: 250px 1fr;
@@ -28,7 +41,19 @@
         margin: 16px;
     }
 
+    .mdc-card.list {
+        max-width: 400px;
+        min-width: 250px;
+        width: max-content;
+    }
+
     .padded {
         padding: 16px;
+    }
+
+    @media (max-width: 600px) {
+        .grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
