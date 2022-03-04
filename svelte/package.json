@@ -40,7 +40,6 @@
         "@material/mwc-list": "^0.25.3",
         "@material/mwc-textfield": "^0.25.3",
         "@material/mwc-top-app-bar-fixed": "^0.25.3",
-        "@openapitools/openapi-generator-cli": "^2.4.26",
         "rxjs": "^6.6.7",
         "sirv-cli": "^2.0.0",
         "svelte-spa-router": "^3.2.0"

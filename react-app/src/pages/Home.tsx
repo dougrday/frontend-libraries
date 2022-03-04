@@ -1,4 +1,4 @@
-import { useTitle } from "../../utils/hooks";
+import { useTitle } from "../utils/hooks";
 
 function Home() {
     useTitle(<span>This is the home title</span>);
