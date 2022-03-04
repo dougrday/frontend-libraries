@@ -28,7 +28,7 @@
         {/if}
         <mwc-list-item tabindex="0" hasMeta>
             <span>Hello, {message.name}!</span>
-            <mwc-icon on:click={() => handleClickDelete(message.id)} slot="meta">delete</mwc-icon>
+            <mwc-icon on:click|once={() => handleClickDelete(message.id)} slot="meta">delete</mwc-icon>
         </mwc-list-item>
     {/each}
 </mwc-list>
