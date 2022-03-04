@@ -1,5 +1,6 @@
 <script type="ts">
     import HelloWorldForm from "./HelloWorldForm.svelte";
+    import HelloWorldGeneratorButton from "./HelloWorldGeneratorButton.svelte";
     import HelloWorldList from "./HelloWorldList.svelte";
     import Layout from "../Layout.svelte";
     import { helloWorldService } from "shared";
@@ -11,7 +12,7 @@
 <Layout>
     <div slot="title">Hello, world!</div>
     <div slot="actionItems">
-        <mwc-icon-button icon="favorite" />
+        <HelloWorldGeneratorButton />
     </div>
     <div class="container">
         <div class="grid">

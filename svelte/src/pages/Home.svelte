@@ -9,6 +9,7 @@
         <mwc-icon-button icon="print" />
         <mwc-icon-button icon="favorite" />
     </div>
+    Home
 </Layout>
 
 <style>
