@@ -2,7 +2,6 @@
     "compilerOptions": {
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
-        "baseUrl": "..",
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "isolatedModules": true,
@@ -12,10 +11,8 @@
         "moduleResolution": "node",
         "noEmit": true,
         "noFallthroughCasesInSwitch": true,
-        "paths": {
-            "@shared/*": ["../shared/*"]
-        },
         "resolveJsonModule": true,
+        "rootDirs": ["src", "../shared"],
         "skipLibCheck": true,
         "strict": true,
         "target": "es5"
