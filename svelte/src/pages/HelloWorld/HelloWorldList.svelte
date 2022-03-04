@@ -48,5 +48,6 @@
     }
     mwc-icon:hover {
         color: var(--mdc-theme-primary, #0055cc);
+        cursor: pointer;
     }
 </style>

@@ -44,4 +44,7 @@
 </span>
 
 <style>
+    mwc-icon-button:hover {
+        cursor: pointer;
+    }
 </style>
