@@ -6,7 +6,7 @@
     import { helloWorldService } from "shared";
 
     helloWorldService.searchHelloWorlds().subscribe();
-    let hasMessages$ = helloWorldService.hasMessages$;
+    let totalMessages$ = helloWorldService.totalMessages$;
 </script>
 
 <Layout>
@@ -22,9 +22,9 @@
                     <HelloWorldForm />
                 </div>
             </div>
-            {#if $hasMessages$}
+            {#if $totalMessages$ > 0}
                 <div>
-                    <h2>Who's Said Hello</h2>
+                    <h2>Who's Said Hello ({$totalMessages$})</h2>
                     <div class="mdc-card list">
                         <HelloWorldList />
                     </div>

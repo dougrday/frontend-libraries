@@ -1,87 +1,83 @@
 import { BehaviorSubject } from "rxjs";
 import { shareReplay, tap, map, withLatestFrom } from "rxjs/operators";
 import { helloWorldApi } from "../api";
-import {
-    CreateHelloWorldRequest,
-    DeleteHelloWorldRequest,
-    HelloWorldSearchQueryResponseMessagePagination,
-} from "../generated/hello-world";
+import { CreateHelloWorldRequest, DeleteHelloWorldRequest } from "../generated/hello-world";
 import { HelloWorld } from "../generated/hello-world/models/HelloWorld";
 
 class HelloWorldService {
     public hasMessages$ = new BehaviorSubject(false);
     public messages$ = new BehaviorSubject<HelloWorld[]>([]);
-    private pagination: HelloWorldSearchQueryResponseMessagePagination = {
-        page: 0,
-        pageSize: 10,
-        totalResults: 0,
-    };
+    public totalMessages$ = new BehaviorSubject(0);
+
+    private page = 0;
+    private readonly pageSize = 10;
 
     constructor() {
         // Keep "hasMessages" up-to-date
-        this.messages$.pipe(map((m) => m.length > 0)).subscribe(this.hasMessages$);
+        this.totalMessages$.pipe(map((total) => total > 0)).subscribe(this.hasMessages$);
     }
 
     createHelloWorld(request: CreateHelloWorldRequest) {
         return helloWorldApi.createHelloWorld(request).pipe(
             shareReplay(1),
-            withLatestFrom(this.messages$),
-            tap(([{ message }, messages]) => this.messages$.next(messages.concat(message))),
+            withLatestFrom(this.messages$, this.totalMessages$),
+            tap(([{ message }, messages, totalMessages]) => {
+                this.messages$.next(messages.concat(message));
+                this.totalMessages$.next((totalMessages ?? 0) + 1);
+            }),
         );
     }
 
     deleteHelloWorld(request: DeleteHelloWorldRequest) {
         return helloWorldApi.deleteHelloWorld(request).pipe(
             shareReplay(1),
-            withLatestFrom(this.messages$),
-            tap(([_, messages]) => {
+            withLatestFrom(this.messages$, this.totalMessages$),
+            tap(([_, messages, totalMessages]) => {
                 // Ensure if new data is loaded, we start from
                 // the beginning
-                this.pagination.page = -1;
+                this.page = -1;
 
                 const index = messages.findIndex((m) => m.id === request.helloWorldId);
                 messages.splice(index, 1);
                 this.messages$.next(messages);
+                this.totalMessages$.next(totalMessages - 1);
             }),
         );
     }
 
     searchHelloWorlds() {
-        return helloWorldApi.searchHelloWorlds({ page: 0, pageSize: 10 }).pipe(
+        return helloWorldApi.searchHelloWorlds({ page: 0, pageSize: this.pageSize }).pipe(
             shareReplay(1),
             tap(({ pagination, results }) => {
-                this.pagination = {
-                    ...pagination,
-                    // Page may or may not have been included in response
-                    page: 0,
-                };
+                this.page = 0;
                 this.messages$.next(results);
+                this.totalMessages$.next(pagination.totalResults);
             }),
         );
     }
 
     searchNext() {
-        if (this.pagination.page === -1) {
+        if (this.page === -1) {
             return this.searchHelloWorlds();
         }
         return helloWorldApi
             .searchHelloWorlds({
-                page: this.pagination.page + 1,
-                pageSize: this.pagination.pageSize,
+                page: this.page + 1,
+                pageSize: this.pageSize,
             })
             .pipe(
                 shareReplay(1),
                 withLatestFrom(this.messages$),
                 tap(([{ pagination, results }, messages]) => {
                     // Slice to ensure we cut off previosly-loaded data
-                    const previous = messages.slice(0, (this.pagination.page + 1) * this.pagination.pageSize);
+                    const previous = messages.slice(0, (this.page + 1) * this.pageSize);
                     this.messages$.next(previous.concat(results));
 
                     if (results.length > 0) {
                         // Only increment a page if you've got data
-                        this.pagination.page = pagination.page;
+                        this.page = pagination.page;
                     }
-                    this.pagination.totalResults = pagination.totalResults;
+                    this.totalMessages$.next(pagination.totalResults);
                 }),
             );
     }
