@@ -10,3 +10,4 @@ server/src/Org.OpenAPITools/*
 !server/src/Org.OpenAPITools
 !server/src/Org.OpenAPITools/Startup.cs
 !server/src/Org.OpenAPITools/Controllers
+shared/lib
