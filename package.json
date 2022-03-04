@@ -1,16 +1,16 @@
 {
-    "name": "frontend-tests",
-    "version": "1.0.0",
-    "private": true,
-    "scripts": {
-        "postinstall": "openapi-generator-cli generate -i openapi.yml -g aspnetcore -o ./server",
-        "react": "cd react-app && npm i && npm start",
-        "server": "cd server && docker build -t backend-server -f ./src/Org.OpenAPITools/Dockerfile . && docker run -d -p 5000:8080 backend-server",
-        "start": "concurrently \"npm run server\" \"npm run svelte\" \"npm run react\"",
-        "svelte": "cd svelte && npm i && npm run dev"
-    },
-    "devDependencies": {
-        "@openapitools/openapi-generator-cli": "^2.4.26",
-        "concurrently": "^7.0.0"
-    }
+  "name": "frontend-tests",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "openapi-generator-cli generate -i openapi.yml -g aspnetcore -o ./server && openapi-generator-cli generate -i openapi.yml -g typescript-rxjs -o ./shared/generated/hello-world",
+    "react": "cd react-app && npm i && npm start",
+    "server": "cd server && docker build -t backend-server -f ./src/Org.OpenAPITools/Dockerfile . && docker run -d -p 5000:8080 backend-server",
+    "start": "concurrently \"npm run server\" \"npm run svelte\" \"npm run react\"",
+    "svelte": "cd svelte && npm i && npm run dev"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.4.26",
+    "concurrently": "^7.0.0"
+  }
 }

@@ -2,7 +2,7 @@
     import "@material/mwc-icon";
     import "@material/mwc-list/mwc-list.js";
     import "@material/mwc-list/mwc-list-item.js";
-    import { helloWorldService } from "../../services/hello-world.service";
+    import { helloWorldService } from "@shared/services/hello-world.service";
 
     function deleteMessage(helloWorldId: string) {
         return helloWorldService.deleteHelloWorld({ helloWorldId }).subscribe();
@@ -15,12 +15,12 @@
         }
     }
 
-    let messages = helloWorldService.messages;
+    let messages$ = helloWorldService.messages$;
 </script>
 
 <div class="items">
     <mwc-list rootTabbable>
-        {#each $messages as message, messageIndex}
+        {#each $messages$ as message, messageIndex}
             {#if messageIndex > 0}
                 <li divider role="separator" />
             {/if}

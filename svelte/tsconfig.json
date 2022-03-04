@@ -1,6 +1,12 @@
 {
     "extends": "@tsconfig/svelte/tsconfig.json",
-    "compilerOptions": { "importsNotUsedAsValues": "preserve" },
-    "include": ["src/**/*"],
+    "compilerOptions": {
+        "importsNotUsedAsValues": "preserve",
+        "paths": {
+            "@shared/*": ["../shared/*"]
+        },
+        "rootDir": ".."
+    },
+    "include": ["src/**/*", "../shared/**/*"],
     "exclude": ["node_modules/*", "__sapper__/*", "public/*"]
 }
