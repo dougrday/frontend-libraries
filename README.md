@@ -1,6 +1,6 @@
-# Frontend Libraries
+# Frontend Libraries with OpenAPI
 
-A place to compare/contrast frontend libraries in 2022.
+A place to compare/contrast frontend libraries in 2022 when auto-generating code with OpenAPI.
 
 # Test backend
 
