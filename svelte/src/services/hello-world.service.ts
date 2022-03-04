@@ -1,9 +1,12 @@
-import { helloWorldApi } from "../api";
-import { CreateHelloWorldRequest, DeleteHelloWorldRequest, SearchHelloWorldsRequest } from "../generated/hello-world";
-import { writable } from "svelte/store";
-import { HelloWorldSearchQueryResponseMessagePagination } from "../generated/hello-world";
-import { HelloWorld } from "../generated/hello-world/models/HelloWorld";
 import { shareReplay, tap } from "rxjs/operators";
+import { writable } from "svelte/store";
+import { helloWorldApi } from "../api";
+import {
+    CreateHelloWorldRequest,
+    DeleteHelloWorldRequest,
+    HelloWorldSearchQueryResponseMessagePagination,
+} from "../generated/hello-world";
+import { HelloWorld } from "../generated/hello-world/models/HelloWorld";
 
 class HelloWorldService {
     public messages = writable<HelloWorld[]>([]);
@@ -17,6 +20,9 @@ class HelloWorldService {
         return helloWorldApi.deleteHelloWorld(request).pipe(
             shareReplay(1),
             tap(() => {
+                // Ensure if new data is loaded, we start from
+                // the beginning
+                this.pagination.page = -1;
                 this.messages.update((m) => {
                     const index = m.findIndex((m) => m.id === request.helloWorldId);
                     m.splice(index, 1);
@@ -43,7 +49,7 @@ class HelloWorldService {
     }
 
     searchHelloWorlds() {
-        return helloWorldApi.searchHelloWorlds(this.pagination).pipe(
+        return helloWorldApi.searchHelloWorlds({ page: 0, pageSize: 10 }).pipe(
             shareReplay(1),
             tap(({ pagination, results }) => {
                 this.messages.set(results);
@@ -57,6 +63,9 @@ class HelloWorldService {
     }
 
     searchNext() {
+        if (this.pagination.page === -1) {
+            return this.searchHelloWorlds();
+        }
         return helloWorldApi
             .searchHelloWorlds({
                 page: this.pagination.page + 1,
