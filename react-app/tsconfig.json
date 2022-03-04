@@ -12,7 +12,6 @@
         "noEmit": true,
         "noFallthroughCasesInSwitch": true,
         "resolveJsonModule": true,
-        "rootDirs": ["src", "../shared"],
         "skipLibCheck": true,
         "strict": true,
         "target": "es5"
