@@ -3,7 +3,7 @@
     import "@material/mwc-textfield";
     import type { TextField } from "@material/mwc-textfield";
     import { onDestroy, onMount, tick } from "svelte";
-    import { helloWorldService } from "@shared/services/hello-world.service";
+    import { helloWorldService } from "shared";
 
     let isValid = false;
     let form: HTMLFormElement;

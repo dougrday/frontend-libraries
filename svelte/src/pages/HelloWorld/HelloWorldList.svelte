@@ -2,7 +2,7 @@
     import "@material/mwc-icon";
     import "@material/mwc-list/mwc-list.js";
     import "@material/mwc-list/mwc-list-item.js";
-    import { helloWorldService } from "@shared/services/hello-world.service";
+    import { helloWorldService } from "shared";
 
     function deleteMessage(helloWorldId: string) {
         return helloWorldService.deleteHelloWorld({ helloWorldId }).subscribe();

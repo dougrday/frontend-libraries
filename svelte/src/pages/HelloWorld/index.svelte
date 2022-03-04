@@ -2,7 +2,7 @@
     import HelloWorldForm from "./HelloWorldForm.svelte";
     import HelloWorldList from "./HelloWorldList.svelte";
     import Layout from "../Layout.svelte";
-    import { helloWorldService } from "@shared/services/hello-world.service";
+    import { helloWorldService } from "shared";
 
     helloWorldService.searchHelloWorlds().subscribe();
     let hasMessages$ = helloWorldService.hasMessages$;
