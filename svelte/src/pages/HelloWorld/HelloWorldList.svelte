@@ -4,8 +4,15 @@
     import "@material/mwc-list/mwc-list-item.js";
     import { helloWorldService } from "../../services/hello-world.service";
 
-    function handleClickDelete(helloWorldId: string) {
-        helloWorldService.deleteHelloWorld({ helloWorldId }).subscribe();
+    function deleteMessage(helloWorldId: string) {
+        return helloWorldService.deleteHelloWorld({ helloWorldId }).subscribe();
+    }
+
+    function handleKeyUp(event: KeyboardEvent, helloWorldId: string) {
+        if (event.code === "Delete") {
+            event.preventDefault();
+            deleteMessage(helloWorldId);
+        }
     }
 
     let messages = helloWorldService.messages;
@@ -17,9 +24,9 @@
             {#if messageIndex > 0}
                 <li divider role="separator" />
             {/if}
-            <mwc-list-item tabindex="0" hasMeta>
+            <mwc-list-item tabindex="0" hasMeta on:keyup={(event) => handleKeyUp(event, message.id)}>
                 <span>Hello, {message.name}!</span>
-                <mwc-icon on:click={() => handleClickDelete(message.id)} slot="meta">delete</mwc-icon>
+                <mwc-icon on:click={() => deleteMessage(message.id)} slot="meta">delete</mwc-icon>
             </mwc-list-item>
         {/each}
     </mwc-list>

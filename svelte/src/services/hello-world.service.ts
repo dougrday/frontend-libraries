@@ -29,7 +29,7 @@ class HelloWorldService {
             tap(({ message }) => {
                 this.messages.update((m) => {
                     const loadedMessages = (this.pagination.page + 1) * this.pagination.pageSize;
-                    if (m.length < loadedMessages) {
+                    if (this.pagination.page === -1 || m.length < loadedMessages) {
                         // Still within the current page
                         return m.concat(message);
                     }
