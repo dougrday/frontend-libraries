@@ -11,6 +11,8 @@ This helps us ensure the backend is adhering to the same API contract as the fro
 
 To start the backend, run `npm run server`.
 
+The server runs on port `5000`, and you can do a simple GET search at http://localhost:5000/hello-world
+
 # React with TypeScript
 
 To run the React example, run `npm run react`.
