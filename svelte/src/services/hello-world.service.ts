@@ -20,7 +20,9 @@ class HelloWorldService {
 
     constructor() {
         // Keep "hasMessages" up-to-date
-        this.messages.subscribe((m) => this.hasMessages.next(m.length > 0));
+        this.messages.subscribe((m) => {
+            this.hasMessages.next(m.length > 0);
+        });
     }
 
     createHelloWorld(request: CreateHelloWorldRequest) {
@@ -59,12 +61,12 @@ class HelloWorldService {
         return helloWorldApi.searchHelloWorlds({ page: 0, pageSize: 10 }).pipe(
             shareReplay(1),
             tap(({ pagination, results }) => {
-                this.messages.set(results);
                 this.pagination = {
                     ...pagination,
                     // Page may or may not have been included in response
                     page: 0,
                 };
+                this.messages.set(results);
             }),
         );
     }
@@ -90,6 +92,7 @@ class HelloWorldService {
                         // Only increment a page if you've got data
                         this.pagination.page = pagination.page;
                     }
+                    this.pagination.totalResults = pagination.totalResults;
                 }),
             );
     }
