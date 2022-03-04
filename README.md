@@ -4,7 +4,7 @@ A place to compare/contrast frontend libraries in 2022.
 
 # Test backend
 
-The `server` folder contains a test hello-world backend to support the different frontend tests.
+The `server` folder contains a test `hello-world` backend to support the different frontend tests.
 
 We decided not to mock this server, but instead generate it using the same `openapi-generator-cli` as the frontend.
 This helps us ensure the backend is adhering to the same API contract as the frontend.
