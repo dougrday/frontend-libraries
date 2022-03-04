@@ -52,7 +52,6 @@
 
     function handleSubmit(event: Event) {
         event.preventDefault();
-        (event.target as HTMLElement).blur();
 
         if (!checkValidity()) {
             return;
