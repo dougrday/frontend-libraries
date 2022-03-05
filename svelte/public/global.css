@@ -7,3 +7,8 @@ body {
     position: relative;
     width: 100%;
 }
+
+a {
+    color: #0055cc;
+    text-decoration: none;
+}
