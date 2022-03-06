@@ -8,7 +8,12 @@ body {
     width: 100%;
 }
 
+html {
+    --mdc-theme-primary: #0055cc;
+    --mdc-theme-secondary: #00cc55;
+}
+
 a {
-    color: #0055cc;
+    color: var(--mdc-theme-primary);
     text-decoration: none;
 }

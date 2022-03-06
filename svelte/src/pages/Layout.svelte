@@ -1,9 +1,11 @@
 <script lang="ts">
     import "@material/mwc-drawer";
+    import "@material/mwc-list";
     import type { Drawer } from "@material/mwc-drawer";
     import "@material/mwc-icon";
     import "@material/mwc-icon-button";
     import "@material/mwc-top-app-bar-fixed";
+    import { push } from "svelte-spa-router";
 
     import { onMount, onDestroy } from "svelte";
 
@@ -23,16 +25,18 @@
 
 <mwc-drawer bind:this={drawer} hasHeader type="modal">
     <span slot="title">Hello World!</span>
-    <div>
-        <ul>
-            <li>
-                <a href="#/"><mwc-icon>home</mwc-icon> Home</a>
-            </li>
-            <li>
-                <a href="#/hello-world"><mwc-icon>language</mwc-icon> Hello World!</a>
-            </li>
-        </ul>
-    </div>
+    <mwc-list rootTabbable>
+        <mwc-list-item tabindex="0" graphic="avatar" on:click={() => push("/")}>
+            Home
+            <mwc-icon slot="graphic">home</mwc-icon>
+        </mwc-list-item>
+        <li divider role="separator" />
+        <mwc-list-item tabindex="0" graphic="avatar" on:click={() => push("/hello-world")}>
+            Hello World!
+            <mwc-icon slot="graphic">language</mwc-icon>
+        </mwc-list-item>
+    </mwc-list>
+
     <div slot="appContent">
         <mwc-top-app-bar-fixed dense>
             <slot name="title" slot="title" />
