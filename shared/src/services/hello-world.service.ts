@@ -1,5 +1,6 @@
-import { BehaviorSubject } from "rxjs";
-import { shareReplay, tap, map, withLatestFrom } from "rxjs/operators";
+import { BehaviorSubject, of, throwError } from "rxjs";
+import { AjaxResponse } from "rxjs/ajax";
+import { shareReplay, tap, map, withLatestFrom, catchError } from "rxjs/operators";
 import { helloWorldApi } from "../api";
 import { CreateHelloWorldRequest, DeleteHelloWorldRequest } from "../generated/hello-world";
 import { HelloWorld } from "../generated/hello-world/models/HelloWorld";
@@ -31,6 +32,14 @@ class HelloWorldService {
     deleteHelloWorld(request: DeleteHelloWorldRequest) {
         return helloWorldApi.deleteHelloWorld(request).pipe(
             shareReplay(1),
+            catchError((response: AjaxResponse) => {
+                if (response.status === 404) {
+                    // The message was already deleted
+                    // so we need to remove it from the list
+                    return of({ id: request.helloWorldId } as HelloWorld);
+                }
+                return throwError(response);
+            }),
             withLatestFrom(this.messages$, this.totalMessages$),
             tap(([_, messages, totalMessages]) => {
                 // Ensure if new data is loaded, we start from
