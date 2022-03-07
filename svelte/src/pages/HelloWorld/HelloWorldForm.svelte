@@ -2,8 +2,8 @@
     import "@material/mwc-button";
     import "@material/mwc-textfield";
     import type { TextField } from "@material/mwc-textfield";
-    import { onDestroy, onMount, tick } from "svelte";
     import { helloWorldService } from "shared";
+    import { onMount, tick } from "svelte";
 
     let isValid = false;
     let form: HTMLFormElement;
@@ -66,9 +66,6 @@
     }
 
     onMount(async () => {
-        form.addEventListener("change", handleFormDataChanged);
-        name.addEventListener("keyup", handleKeyup);
-        name.addEventListener("invalid", handleNameInvalid);
         name.validityTransform = (newValue, nativeValidity) => {
             if (newValue.startsWith("D") && newValue !== "Doug") {
                 return {
@@ -83,14 +80,9 @@
         await tick();
         name.focus();
     });
-    onDestroy(() => {
-        form.removeEventListener("change", handleFormDataChanged);
-        name.removeEventListener("keyup", handleKeyup);
-        name.removeEventListener("invalid", handleNameInvalid);
-    });
 </script>
 
-<form bind:this={form} on:submit={handleSubmit}>
+<form bind:this={form} on:change={handleFormDataChanged} on:submit={handleSubmit}>
     <div class="spaced">
         <mwc-textfield
             bind:this={name}
@@ -100,6 +92,8 @@
             placeholder="Name"
             required
             autoValidate
+            on:invalid={handleNameInvalid}
+            on:keyup={handleKeyup}
         />
     </div>
     <div class="right"><mwc-button disabled={!isValid} raised on:click={handleSubmit}>Submit</mwc-button></div>
