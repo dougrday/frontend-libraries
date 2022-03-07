@@ -1,6 +1,6 @@
 import { BehaviorSubject, of, throwError } from "rxjs";
 import { AjaxResponse } from "rxjs/ajax";
-import { shareReplay, tap, map, withLatestFrom, catchError } from "rxjs/operators";
+import { shareReplay, tap, map, withLatestFrom, catchError, switchMap } from "rxjs/operators";
 import { helloWorldApi } from "../api";
 import { CreateHelloWorldRequest, DeleteHelloWorldRequest } from "../generated/hello-world";
 import { HelloWorld } from "../generated/hello-world/models/HelloWorld";
@@ -88,6 +88,7 @@ class HelloWorldService {
                     }
                     this.totalMessages$.next(pagination.totalResults);
                 }),
+                map(([response]) => response),
             );
     }
 }
