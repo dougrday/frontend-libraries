@@ -7,9 +7,8 @@ import HelloWorldList from "./HelloWorldList";
 
 function HelloWorld() {
     useTitle(<span>Hello, world!</span>);
-
-    // Declare a new state variable, which we'll call "hasMessages"
     const hasMessages = useObservable(helloWorldService.hasMessages$, false);
+
     useEffect(() => {
         helloWorldService.searchHelloWorlds().subscribe();
     }, []);
