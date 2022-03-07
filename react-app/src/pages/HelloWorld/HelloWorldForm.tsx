@@ -15,18 +15,42 @@ declare global {
 }
 
 function HelloWorldForm() {
+    const [isValid, setIsValid] = useState(false);
+
+    const formRef = useRef<HTMLFormElement>(null);
+
     const [name, setName] = useState("");
     const nameRef = useRef<TextField>(null);
 
     useEffect(() => {
         const nameField = nameRef.current;
-        nameField?.addEventListener("change", handleChange);
-        nameRef.current?.focus(); // Set initial focus on the name field
+        if (nameField) {
+            nameField.addEventListener("change", handleChange);
+            nameField.addEventListener("invalid", handleNameInvalid);
+
+            nameField.validityTransform = (newValue, nativeValidity) => {
+                if (newValue.startsWith("D") && newValue !== "Doug") {
+                    return {
+                        ...nativeValidity,
+                        customError: true,
+                        valid: false,
+                    };
+                }
+                return nativeValidity;
+            };
+
+            nameField.focus(); // Set initial focus on the name field
+        }
 
         return () => {
             nameField?.removeEventListener("change", handleChange);
+            nameField?.removeEventListener("invalid", handleNameInvalid);
         };
     }, []);
+
+    const checkValidity = () => {
+        return (formRef?.current?.checkValidity() && nameRef?.current?.checkValidity()) ?? false;
+    };
 
     const clearForm = () => {
         setName("");
@@ -37,14 +61,40 @@ function HelloWorldForm() {
         setName((event.target as TextField).value);
     };
 
+    const handleFormDataChanged = (event: FormEvent) => {
+        setIsValid(checkValidity());
+    };
+
+    const handleNameInvalid = (event: Event) => {
+        setIsValid(false);
+
+        const nameField = nameRef.current;
+        if (nameField) {
+            nameField.validationMessage = "";
+            if (nameField.validity.valueMissing) {
+                nameField.validationMessage = "Name is required";
+            } else if (nameField.validity.tooShort) {
+                nameField.validationMessage = `Name must be at least ${nameField.getAttribute(
+                    "minlength",
+                )} characters long`;
+            } else if (nameField.validity.customError) {
+                nameField.validationMessage = "Names starting with 'D' must be 'Doug'";
+            }
+        }
+    };
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!checkValidity()) {
+            return;
+        }
 
         helloWorldService.createHelloWorld({ sayHelloCommandMessage: { name } }).subscribe(clearForm);
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form ref={formRef} onChange={handleFormDataChanged} onSubmit={handleSubmit}>
             <div className="spaced">
                 <mwc-textfield
                     ref={nameRef}
