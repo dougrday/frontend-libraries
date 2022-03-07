@@ -11,6 +11,8 @@ function HelloWorld() {
     // Declare a new state variable, which we'll call "hasMessages"
     const [hasMessages, setHasMessages] = useState(false);
     useEffect(() => {
+        helloWorldService.searchHelloWorlds().subscribe();
+
         const subscription = helloWorldService.hasMessages$.subscribe((value) => setHasMessages(value));
         return () => subscription.unsubscribe();
     }, []);
@@ -36,8 +38,8 @@ function HelloWorld() {
                         <HelloWorldForm />
                     </div>
                 </div>
+                {whoSaidHello}
             </div>
-            {whoSaidHello}
         </div>
     );
 }

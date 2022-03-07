@@ -5,17 +5,7 @@ import "@material/mwc-icon";
 import "@material/mwc-icon-button";
 import "@material/mwc-top-app-bar-fixed";
 import { Link, Outlet } from "react-router-dom";
-
-declare global {
-    namespace JSX {
-        interface IntrinsicElements {
-            "mwc-drawer": any;
-            "mwc-icon": any;
-            "mwc-icon-button": any;
-            "mwc-top-app-bar-fixed": any;
-        }
-    }
-}
+import "./Layout.css";
 
 function Layout() {
     const drawerRef = useRef<Drawer>();

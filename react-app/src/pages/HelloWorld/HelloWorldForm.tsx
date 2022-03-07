@@ -5,21 +5,11 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { helloWorldService } from "shared";
 import "./HelloWorldForm.css";
 
-declare global {
-    namespace JSX {
-        interface IntrinsicElements {
-            "mwc-button": any;
-            "mwc-textfield": any;
-        }
-    }
-}
-
 function HelloWorldForm() {
     const [isValid, setIsValid] = useState(false);
+    const [name, setName] = useState("");
 
     const formRef = useRef<HTMLFormElement>(null);
-
-    const [name, setName] = useState("");
     const nameRef = useRef<TextField>(null);
 
     useEffect(() => {

@@ -7,6 +7,21 @@ import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import HelloWorld from "./pages/HelloWorld/HelloWorld";
 
+declare global {
+    namespace JSX {
+        interface IntrinsicElements {
+            "mwc-button": any;
+            "mwc-drawer": any;
+            "mwc-icon": any;
+            "mwc-icon-button": any;
+            "mwc-list": any;
+            "mwc-list-item": any;
+            "mwc-textfield": any;
+            "mwc-top-app-bar-fixed": any;
+        }
+    }
+}
+
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
