@@ -38,7 +38,12 @@ function HelloWorldList() {
         const handleKeyUp = (helloWorldId: string) => (event: KeyboardEvent) => {
             if (event.code === "Delete") {
                 event.preventDefault();
-                deleteMessage(helloWorldId).subscribe();
+                deleteMessage(helloWorldId).subscribe(() => {
+                    if (messages.length > 0) {
+                        // Focus the first remaining item in the list
+                        itemRefs.current.get(messages[0].id)?.focus();
+                    }
+                });
             }
         };
 
