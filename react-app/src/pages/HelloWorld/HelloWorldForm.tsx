@@ -7,7 +7,6 @@ import "./HelloWorldForm.css";
 
 function HelloWorldForm() {
     const [isValid, setIsValid] = useState(false);
-    const [name, setName] = useState("");
 
     const formRef = useRef<HTMLFormElement>(null);
     const nameRef = useRef<TextField>(null);
@@ -15,8 +14,8 @@ function HelloWorldForm() {
     useEffect(() => {
         const nameField = nameRef.current;
         if (nameField) {
-            nameField.addEventListener("change", handleChange);
             nameField.addEventListener("invalid", handleNameInvalid);
+            nameField.addEventListener("keydown", handleKeyDown);
 
             nameField.validityTransform = (newValue, nativeValidity) => {
                 if (newValue.startsWith("D") && newValue !== "Doug") {
@@ -33,8 +32,8 @@ function HelloWorldForm() {
         }
 
         return () => {
-            nameField?.removeEventListener("change", handleChange);
             nameField?.removeEventListener("invalid", handleNameInvalid);
+            nameField?.removeEventListener("keydown", handleKeyDown);
         };
     }, []);
 
@@ -43,16 +42,34 @@ function HelloWorldForm() {
     };
 
     const clearForm = () => {
-        setName("");
-        nameRef.current?.focus();
+        if (nameRef.current) {
+            nameRef.current.value = "";
+            nameRef.current.focus();
+        }
     };
 
-    const handleChange = (event: Event) => {
-        setName((event.target as TextField).value);
+    const getFormData = (): any => {
+        if (formRef?.current) {
+            const formData = new FormData(formRef.current);
+            const data: any = {};
+            for (let [key, value] of formData) {
+                data[key] = value;
+            }
+            return data;
+        }
+
+        return {};
     };
 
     const handleFormDataChanged = (event: FormEvent) => {
         setIsValid(checkValidity());
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.code === "Enter") {
+            event.preventDefault();
+            submit();
+        }
     };
 
     const handleNameInvalid = (event: Event) => {
@@ -76,11 +93,16 @@ function HelloWorldForm() {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        submit();
+    };
+
+    const submit = () => {
         if (!checkValidity()) {
             return;
         }
+        const data = getFormData();
 
-        helloWorldService.createHelloWorld({ sayHelloCommandMessage: { name } }).subscribe(clearForm);
+        helloWorldService.createHelloWorld({ sayHelloCommandMessage: data }).subscribe(clearForm);
     };
 
     return (
@@ -94,7 +116,6 @@ function HelloWorldForm() {
                     name="name"
                     placeholder="Name"
                     required
-                    value={name}
                 />
             </div>
             <div className="right">
