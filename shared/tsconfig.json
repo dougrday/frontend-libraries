@@ -1,6 +1,8 @@
 {
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
+        "declaration": true,
+        "declarationDir": "lib/types",
         "esModuleInterop": true,
         "lib": ["dom", "dom.iterable", "esnext"],
         "module": "esnext",
