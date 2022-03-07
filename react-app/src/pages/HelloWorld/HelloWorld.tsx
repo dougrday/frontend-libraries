@@ -8,7 +8,7 @@ import HelloWorldList from "./HelloWorldList";
 function HelloWorld() {
     useTitle(<span>Hello, world!</span>);
 
-    // Declare a new state variable, which we'll call "count"
+    // Declare a new state variable, which we'll call "hasMessages"
     const [hasMessages, setHasMessages] = useState(false);
     useEffect(() => {
         const subscription = helloWorldService.hasMessages$.subscribe((value) => setHasMessages(value));
