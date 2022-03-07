@@ -55,21 +55,21 @@ function HelloWorldList() {
         };
     }, [messages]);
 
+    const messageListItems = messages.map((message) => (
+        <mwc-list-item
+            key={message.id}
+            ref={(element: ListItem) => itemRefs.current.set(message.id, element)}
+            tabindex="0"
+            hasMeta
+        >
+            <span>Hello, {message.name}!</span>
+            <mwc-icon slot="meta">delete</mwc-icon>
+        </mwc-list-item>
+    ));
+
     return (
         <div className="items">
-            <mwc-list rootTabbable>
-                {messages.map((message) => (
-                    <mwc-list-item
-                        key={message.id}
-                        ref={(element: ListItem) => itemRefs.current.set(message.id, element)}
-                        tabindex="0"
-                        hasMeta
-                    >
-                        <span>Hello, {message.name}!</span>
-                        <mwc-icon slot="meta">delete</mwc-icon>
-                    </mwc-list-item>
-                ))}
-            </mwc-list>
+            <mwc-list rootTabbable>{messageListItems}</mwc-list>
             <mwc-button fullwidth ref={loadMoreRef}>
                 Load more
             </mwc-button>
