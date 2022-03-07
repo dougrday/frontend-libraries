@@ -13,5 +13,8 @@
     "devDependencies": {
         "@openapitools/openapi-generator-cli": "^2.4.26",
         "concurrently": "^7.0.0"
+    },
+    "dependencies": {
+        "@angular/cli": "^13.2.5"
     }
 }

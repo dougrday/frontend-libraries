@@ -1,5 +1,6 @@
-import { ReactNode, useEffect } from "react";
+import { Dispatch, ReactNode, SetStateAction, useEffect, useReducer, useState } from "react";
 import ReactDOM from "react-dom";
+import { Observable } from "rxjs";
 
 // FIXME: ReactNode type so we don't need <span> below
 export const useTitle = (title: ReactNode) =>
@@ -14,3 +15,16 @@ export const useTitle = (title: ReactNode) =>
             }
         };
     });
+
+export const useObservable = function <T>(observable: Observable<T>, initialState: T | (() => T)): T {
+    const [value, setValue] = useState(initialState);
+
+    useEffect(() => {
+        const subscription = observable.subscribe((value) => {
+            setValue(value);
+        });
+        return () => subscription.unsubscribe();
+    }, [observable]);
+
+    return value;
+};
