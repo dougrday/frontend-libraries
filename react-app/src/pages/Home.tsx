@@ -1,9 +1,18 @@
+import { Link } from "react-router-dom";
 import { useTitle } from "../utils/hooks";
+import "./Home.css";
 
 function Home() {
-    useTitle(<span>This is the home title</span>);
+    useTitle(<span>Home(r)</span>);
 
-    return <h1>This is the Home component!</h1>;
+    return (
+        <>
+            <div className="centered">
+                <img alt="Homer" src="/images/homer.jpg" />
+                <Link to="/hello-world">Hello, World!</Link>
+            </div>
+        </>
+    );
 }
 
 export default Home;

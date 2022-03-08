@@ -30,7 +30,7 @@ function Layout() {
         <mwc-drawer ref={drawerRef} hasHeader type="modal">
             <span slot="title">Hello World!</span>
             <mwc-list rootTabbable>
-                <Link to="/home">
+                <Link to="/">
                     <mwc-list-item tabindex="0" graphic="avatar">
                         Home
                         <mwc-icon slot="graphic">home</mwc-icon>
