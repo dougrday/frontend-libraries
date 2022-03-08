@@ -1,14 +1,16 @@
-import { useEffect, useRef } from "react";
 import "@material/mwc-drawer";
 import type { Drawer } from "@material/mwc-drawer";
 import "@material/mwc-icon";
 import "@material/mwc-icon-button";
+import "@material/mwc-list/mwc-list";
+import "@material/mwc-list/mwc-list-item";
 import "@material/mwc-top-app-bar-fixed";
+import { useEffect, useRef } from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./Layout.css";
 
 function Layout() {
-    const drawerRef = useRef<Drawer>();
+    const drawerRef = useRef<Drawer>(null);
 
     const handleNavigationClick = () => {
         if (drawerRef.current) {
@@ -18,10 +20,7 @@ function Layout() {
 
     useEffect(() => {
         const drawer = drawerRef.current;
-        if (drawer) {
-            drawer.addEventListener("MDCTopAppBar:nav", handleNavigationClick);
-        }
-
+        drawer?.addEventListener("MDCTopAppBar:nav", handleNavigationClick);
         return () => {
             drawer?.removeEventListener("MDCTopAppBar:nav", handleNavigationClick);
         };
@@ -30,20 +29,20 @@ function Layout() {
     return (
         <mwc-drawer ref={drawerRef} hasHeader type="modal">
             <span slot="title">Hello World!</span>
-            <div>
-                <ul>
-                    <li>
-                        <Link to="/home">
-                            <mwc-icon>home</mwc-icon> Home
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/hello-world">
-                            <mwc-icon>language</mwc-icon> Hello World!
-                        </Link>
-                    </li>
-                </ul>
-            </div>
+            <mwc-list rootTabbable>
+                <Link to="/home">
+                    <mwc-list-item tabindex="0" graphic="avatar">
+                        Home
+                        <mwc-icon slot="graphic">home</mwc-icon>
+                    </mwc-list-item>
+                </Link>
+                <Link to="/hello-world">
+                    <mwc-list-item tabindex="0" graphic="avatar">
+                        Hello World!
+                        <mwc-icon slot="graphic">language</mwc-icon>
+                    </mwc-list-item>
+                </Link>
+            </mwc-list>
             <div slot="appContent">
                 <mwc-top-app-bar-fixed dense>
                     <div id="layout-title" slot="title"></div>
