@@ -21,12 +21,16 @@ export const useObservable = function <T>(observable: Observable<T>, initialStat
     // FIXME: This shouldn't have to be done to ensure the observable
     // is properly causing a DOM update. However, without it, the DOM
     // updates aren't properly happening.
-    const [_, forceUpdate] = useReducer((x) => x + 1, 0);
+    //
+    // BUT, if you choose to do this thing, you'll get a nasty memory leak
+    // and high CPU utilization. :(
+    //
+    //const [_, forceUpdate] = useReducer((x) => x + 1, 0);
 
     useEffect(() => {
         const subscription = observable.subscribe((value) => {
             setValue(value);
-            forceUpdate();
+            //forceUpdate();
         });
         return () => subscription.unsubscribe();
     }, [observable]);
