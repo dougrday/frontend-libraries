@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { helloWorldService } from "shared/lib/public-api";
 import { useObservable, useTitle } from "../../utils/hooks";
 import "./HelloWorld.css";
@@ -8,6 +8,7 @@ import HelloWorldList from "./HelloWorldList";
 function HelloWorld() {
     useTitle(<span>Hello, world!</span>);
     const hasMessages = useObservable(helloWorldService.hasMessages$, false);
+    const totalMessages = useObservable(helloWorldService.totalMessages$, 0);
 
     useEffect(() => {
         helloWorldService.searchHelloWorlds().subscribe();
@@ -17,7 +18,7 @@ function HelloWorld() {
     if (hasMessages) {
         whoSaidHello = (
             <div>
-                <h2>Who's Said Hello</h2>
+                <h2>Who's Said Hello ({totalMessages})</h2>
                 <div className="mdc-card list">
                     <HelloWorldList />
                 </div>

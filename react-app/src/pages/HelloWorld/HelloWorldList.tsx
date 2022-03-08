@@ -49,25 +49,25 @@ function HelloWorldList() {
 
         const listItemMap = itemRefs.current;
         listItemMap.forEach((listItem, messageId) => {
-            listItem.addEventListener("keyup", handleKeyUp(messageId));
-            listItem.querySelector("mwc-icon")?.addEventListener("click", handleDeleteClick(messageId));
+            listItem?.addEventListener("keyup", handleKeyUp(messageId));
+            listItem?.querySelector("mwc-icon")?.addEventListener("click", handleDeleteClick(messageId));
         });
         return () => {
             listItemMap.forEach((listItem, messageId) => {
-                listItem.removeEventListener("keyup", handleKeyUp(messageId));
-                listItem.querySelector("mwc-icon")?.removeEventListener("click", handleDeleteClick(messageId));
+                listItem?.removeEventListener("keyup", handleKeyUp(messageId));
+                listItem?.querySelector("mwc-icon")?.removeEventListener("click", handleDeleteClick(messageId));
             });
         };
     }, [messages]);
 
     const messageListItems = messages.map((message) => (
         <mwc-list-item
-            key={message.id}
-            ref={(element: ListItem) => itemRefs.current.set(message.id, element)}
+            key={message?.id}
+            ref={(element: ListItem) => itemRefs.current.set(message?.id, element)}
             tabindex="0"
             hasMeta
         >
-            <span>Hello, {message.name}!</span>
+            <span>Hello, {message?.name}!</span>
             <mwc-icon slot="meta">delete</mwc-icon>
         </mwc-list-item>
     ));
