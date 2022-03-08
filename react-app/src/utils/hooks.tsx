@@ -18,19 +18,9 @@ export const useTitle = (title: ReactNode) =>
 
 export const useObservable = function <T>(observable: Observable<T>, initialState: T | (() => T)): T {
     const [value, setValue] = useState(initialState);
-    // FIXME: This shouldn't have to be done to ensure the observable
-    // is properly causing a DOM update. However, without it, the DOM
-    // updates aren't properly happening.
-    //
-    // BUT, if you choose to do this thing, you'll get a nasty memory leak
-    // and high CPU utilization. :(
-    //
-    //const [_, forceUpdate] = useReducer((x) => x + 1, 0);
-
     useEffect(() => {
         const subscription = observable.subscribe((value) => {
             setValue(value);
-            //forceUpdate();
         });
         return () => subscription.unsubscribe();
     }, [observable]);
