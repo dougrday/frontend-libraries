@@ -1,0 +1,12 @@
+<div class="items">
+    <mwc-list rootTabbable>
+        <ng-container *ngFor="let message of messages$ | async; index as messageIndex">
+            <li *ngIf="messageIndex > 0" divider role="separator"></li>
+            <mwc-list-item tabindex="0" hasMeta (keyup)="handleKeyUp($event, message.id)">
+                <span>Hello, {{message.name}}!</span>
+                <mwc-icon (click)="deleteMessage(message.id)" slot="meta">delete</mwc-icon>
+            </mwc-list-item>
+        </ng-container>
+    </mwc-list>
+    <mwc-button fullwidth (click)="handleLoadMoreClick()">Load more</mwc-button>
+</div>

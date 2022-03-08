@@ -1,7 +1,7 @@
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { HelloWorldActionItemsComponent } from "./pages/hello-world/components/hello-world-action-items.component";
-import { HelloWorldTitleComponent } from "./pages/hello-world/components/hello-world-title.component";
+import { HelloWorldActionItemsComponent } from "./pages/hello-world/hello-world-action-items.component";
+import { HelloWorldTitleComponent } from "./pages/hello-world/hello-world-title.component";
 import { HelloWorldComponent } from "./pages/hello-world/hello-world.component";
 import { HomeActionItemsComponent } from "./pages/home/components/home-action-items.component";
 import { HomeTitleComponent } from "./pages/home/components/home-title.component";
@@ -51,5 +51,6 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppRoutingModule {}

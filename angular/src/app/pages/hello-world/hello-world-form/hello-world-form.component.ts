@@ -12,13 +12,17 @@ import { helloWorldService } from "shared";
 export class HelloWorldFormComponent implements AfterContentInit {
     isValid = false;
     @ViewChild("form")
-    form: HTMLFormElement;
+    form: ElementRef<HTMLFormElement>;
     name: TextField & HTMLElement;
 
-    constructor(private elementRef: ElementRef) {}
+    constructor(private elementRef: ElementRef) {
+        this.handleNameInvalid.bind(this);
+        this.handleKeyUp.bind(this);
+        this.handleSubmit.bind(this);
+    }
 
     checkValidity(): boolean {
-        return this.form.checkValidity() && this.name.checkValidity();
+        return this.form.nativeElement.checkValidity() && this.name.checkValidity();
     }
 
     clearForm(): void {
@@ -27,7 +31,7 @@ export class HelloWorldFormComponent implements AfterContentInit {
     }
 
     getFormData(): any {
-        const formData = new FormData(this.form);
+        const formData = new FormData(this.form.nativeElement);
         const data: any = {};
         formData.forEach((value, key) => (data[key] = value));
         return data;
