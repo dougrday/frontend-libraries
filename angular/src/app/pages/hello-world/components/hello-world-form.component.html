@@ -1,0 +1,17 @@
+<form (change)="handleFormDataChanged($event)" (submit)="handleSubmit($event)">
+    <div class="spaced">
+        <mwc-textfield
+            label="Hello, "
+            minLength="2"
+            name="name"
+            placeholder="Name"
+            required
+            autoValidate
+            (invalid)="handleNameInvalid($event)"
+            (keyup)="handleKeyUp($event)"
+        ></mwc-textfield>
+    </div>
+    <div class="right">
+        <mwc-button [attr:disabled]="!isValid" raised (click)="handleSubmit($event)">Submit</mwc-button>
+    </div>
+</form>

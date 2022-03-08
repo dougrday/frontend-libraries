@@ -6,25 +6,34 @@ import { CreateHelloWorldRequest, DeleteHelloWorldRequest } from "../generated/h
 import { HelloWorld } from "../generated/hello-world/models/HelloWorld";
 
 class HelloWorldService {
-    public hasMessages$ = new BehaviorSubject(false);
-    public messages$ = new BehaviorSubject<HelloWorld[]>([]);
-    public totalMessages$ = new BehaviorSubject(0);
+    private hasMessagesSubject$ = new BehaviorSubject(false);
+    public get hasMessages$() {
+        return this.hasMessagesSubject$.asObservable();
+    }
+    private messagesSubject$ = new BehaviorSubject<HelloWorld[]>([]);
+    public get messages$() {
+        return this.messagesSubject$.asObservable();
+    }
+    public totalMessagesSubject$ = new BehaviorSubject(0);
+    public get totalMessages$() {
+        return this.totalMessagesSubject$.asObservable();
+    }
 
     private page = 0;
     private readonly pageSize = 10;
 
     constructor() {
         // Keep "hasMessages" up-to-date
-        this.totalMessages$.pipe(map((total) => total > 0)).subscribe(this.hasMessages$);
+        this.totalMessagesSubject$.pipe(map((total) => total > 0)).subscribe(this.hasMessagesSubject$);
     }
 
     createHelloWorld(request: CreateHelloWorldRequest) {
         return helloWorldApi.createHelloWorld(request).pipe(
             shareReplay(1),
-            withLatestFrom(this.messages$, this.totalMessages$),
+            withLatestFrom(this.messagesSubject$, this.totalMessagesSubject$),
             tap(([{ message }, messages, totalMessages]) => {
-                this.messages$.next(messages.concat(message));
-                this.totalMessages$.next((totalMessages ?? 0) + 1);
+                this.messagesSubject$.next(messages.concat(message));
+                this.totalMessagesSubject$.next((totalMessages ?? 0) + 1);
             }),
         );
     }
@@ -40,7 +49,7 @@ class HelloWorldService {
                 }
                 return throwError(response);
             }),
-            withLatestFrom(this.messages$, this.totalMessages$),
+            withLatestFrom(this.messagesSubject$, this.totalMessagesSubject$),
             tap(([_, messages, totalMessages]) => {
                 // Ensure if new data is loaded, we start from
                 // the beginning
@@ -48,8 +57,8 @@ class HelloWorldService {
 
                 const index = messages.findIndex((m) => m.id === request.helloWorldId);
                 messages.splice(index, 1);
-                this.messages$.next(messages);
-                this.totalMessages$.next(totalMessages - 1);
+                this.messagesSubject$.next(messages);
+                this.totalMessagesSubject$.next(totalMessages - 1);
             }),
         );
     }
@@ -59,8 +68,8 @@ class HelloWorldService {
             shareReplay(1),
             tap(({ pagination, results }) => {
                 this.page = 0;
-                this.messages$.next(results);
-                this.totalMessages$.next(pagination.totalResults);
+                this.messagesSubject$.next(results);
+                this.totalMessagesSubject$.next(pagination.totalResults);
             }),
         );
     }
@@ -76,17 +85,17 @@ class HelloWorldService {
             })
             .pipe(
                 shareReplay(1),
-                withLatestFrom(this.messages$),
+                withLatestFrom(this.messagesSubject$),
                 tap(([{ pagination, results }, messages]) => {
                     // Slice to ensure we cut off previosly-loaded data
                     const previous = messages.slice(0, (this.page + 1) * this.pageSize);
-                    this.messages$.next(previous.concat(results));
+                    this.messagesSubject$.next(previous.concat(results));
 
                     if (results.length > 0) {
                         // Only increment a page if you've got data
                         this.page = pagination.page;
                     }
-                    this.totalMessages$.next(pagination.totalResults);
+                    this.totalMessagesSubject$.next(pagination.totalResults);
                 }),
                 map(([response]) => response),
             );

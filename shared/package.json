@@ -11,7 +11,7 @@
     "devDependencies": {
         "typescript": "^4.6.2"
     },
-    "dependencies": {
+    "peerDependencies": {
         "rxjs": "^6.6.7"
     },
     "types": "./lib/types/public-api.d.ts"
