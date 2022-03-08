@@ -1,0 +1,19 @@
+html,
+body {
+    font-family: Roboto, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+
+html {
+    --mdc-theme-primary: #0055cc;
+    --mdc-theme-secondary: #00cc55;
+}
+
+a {
+    color: var(--mdc-theme-primary);
+    text-decoration: none;
+}
