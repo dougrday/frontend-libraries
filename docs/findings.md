@@ -4,9 +4,9 @@
 
 | Framework | Bundle Size (raw) | Bundle Size (gzip) |
 | :-------: | :---------------: | :----------------: |
-|  Angular  |      520 KB       |                    |
-|   React   |      459 KB       |       114 KB       |
-|  Svelte   |      355 KB       |                    |
+|  Angular  |      520 KB       |       134 KB       |
+|   React   |      492 KB       |       119 KB       |
+|  Svelte   |      353 KB       |       76 KB        |
 
 ## Performance
 
