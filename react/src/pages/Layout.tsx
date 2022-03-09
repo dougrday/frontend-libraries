@@ -50,12 +50,8 @@ function Layout() {
             </mwc-list>
             <div slot="appContent">
                 <mwc-top-app-bar-fixed dense>
-                    <div id="layout-title" slot="title">
-                        {title}
-                    </div>
-                    <div id="layout-actionItems" slot="actionItems">
-                        {actionItems}
-                    </div>
+                    <div slot="title">{title}</div>
+                    <div slot="actionItems">{actionItems}</div>
                     <mwc-icon-button icon="menu" slot="navigationIcon" />
                     <Outlet />
                 </mwc-top-app-bar-fixed>
