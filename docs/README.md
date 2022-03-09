@@ -30,7 +30,12 @@
 
 # Start Everything
 
-To run all examples at once, run `npm start`.
+To run all examples at once, run:
+
+```bash
+npm install
+npm start
+```
 
 <br />
 
