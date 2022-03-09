@@ -9,7 +9,7 @@
 
 ## Approach
 
-1. Implement the same application in each candidate library.
+1. Implement the same application using each candidate library:
    * React (`react` folder)
    * Svelte (`svelte` folder)
    * Angular (`angular` folder, not a candidate but included for comparison)
