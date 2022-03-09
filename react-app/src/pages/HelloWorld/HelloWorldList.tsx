@@ -2,7 +2,6 @@ import "@material/mwc-button";
 import type { Button } from "@material/mwc-button";
 import "@material/mwc-icon";
 import "@material/mwc-list/mwc-list-item.js";
-import type { ListItem } from "@material/mwc-list/mwc-list-item.js";
 import "@material/mwc-list/mwc-list.js";
 import { useEffect, useRef } from "react";
 import { helloWorldService } from "shared";
@@ -12,7 +11,6 @@ import "./HelloWorldList.css";
 function HelloWorldList() {
     const messages = useObservable(helloWorldService.messages$, []);
     const loadMoreRef = useRef<Button>(null);
-    const itemRefs = useRef(new Map<string, ListItem>());
 
     const deleteMessage = (helloWorldId: string) => {
         return helloWorldService.deleteHelloWorld({ helloWorldId });
@@ -20,6 +18,32 @@ function HelloWorldList() {
 
     const handleLoadMoreClick = () => {
         helloWorldService.searchNext().subscribe();
+    };
+
+    const handleDeleteClick = (event: React.MouseEvent) => {
+        const element = event.target as HTMLElement;
+        if (element.localName === "mwc-icon") {
+            const helloWorldId = element?.getAttribute("data-id");
+            if (helloWorldId) {
+                deleteMessage(helloWorldId).subscribe();
+            }
+        }
+    };
+
+    const handleKeyUp = (event: React.KeyboardEvent) => {
+        const element = event.target as HTMLElement;
+        if (element.localName === "mwc-list-item" && event.code === "Delete") {
+            event.preventDefault();
+            const helloWorldId = element?.getAttribute("data-id");
+            if (helloWorldId) {
+                const nextElement = element?.nextElementSibling as HTMLElement;
+                deleteMessage(helloWorldId).subscribe(() => {
+                    if (nextElement) {
+                        nextElement.focus();
+                    }
+                });
+            }
+        }
     };
 
     useEffect(() => {
@@ -30,50 +54,17 @@ function HelloWorldList() {
         };
     }, []);
 
-    useEffect(() => {
-        const handleDeleteClick = (helloWorldId: string) => (event: Event) => {
-            deleteMessage(helloWorldId).subscribe();
-        };
-
-        const handleKeyUp = (helloWorldId: string) => (event: KeyboardEvent) => {
-            if (event.code === "Delete") {
-                event.preventDefault();
-                deleteMessage(helloWorldId).subscribe(() => {
-                    if (messages.length > 0) {
-                        // Focus the first remaining item in the list
-                        itemRefs.current.get(messages[0].id)?.focus();
-                    }
-                });
-            }
-        };
-
-        const listItemMap = itemRefs.current;
-        listItemMap.forEach((listItem, messageId) => {
-            listItem?.addEventListener("keyup", handleKeyUp(messageId));
-            listItem?.querySelector("mwc-icon")?.addEventListener("click", handleDeleteClick(messageId));
-        });
-        return () => {
-            listItemMap.forEach((listItem, messageId) => {
-                listItem?.removeEventListener("keyup", handleKeyUp(messageId));
-                listItem?.querySelector("mwc-icon")?.removeEventListener("click", handleDeleteClick(messageId));
-            });
-        };
-    }, [messages]);
-
     const messageListItems = messages.map((message) => (
-        <mwc-list-item
-            key={message?.id}
-            ref={(element: ListItem) => itemRefs.current.set(message?.id, element)}
-            tabindex="0"
-            hasMeta
-        >
+        <mwc-list-item data-id={message?.id} key={message?.id} tabindex="0" hasMeta>
             <span>Hello, {message?.name}!</span>
-            <mwc-icon slot="meta">delete</mwc-icon>
+            <mwc-icon data-id={message?.id} slot="meta">
+                delete
+            </mwc-icon>
         </mwc-list-item>
     ));
 
     return (
-        <div className="items">
+        <div className="items" onClick={handleDeleteClick} onKeyUp={handleKeyUp}>
             <mwc-list rootTabbable>{messageListItems}</mwc-list>
             <mwc-button fullwidth ref={loadMoreRef}>
                 Load more
