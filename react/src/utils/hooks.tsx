@@ -12,3 +12,28 @@ export const useObservable = function <T>(observable: Observable<T>, initialStat
 
     return value;
 };
+
+export const useForm = (submitCallback: any, fields: any) => {
+    const [allowSubmit, setAllowSubmit] = useState(false);
+    const [formData, setFormData] = useState(fields);
+
+    function submitForm() {
+        setAllowSubmit(true);
+    }
+
+    function setFormValues(event: any) {
+        setFormData({
+            ...formData,
+            [event.target.name]: event.target.value,
+        });
+    }
+
+    useEffect(() => {
+        if (allowSubmit) {
+            setAllowSubmit(false);
+            submitCallback();
+        }
+    });
+
+    return [submitForm, formData, setFormValues];
+};
