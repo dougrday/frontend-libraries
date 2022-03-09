@@ -7,10 +7,14 @@ import "@material/mwc-list/mwc-list-item";
 import "@material/mwc-top-app-bar-fixed";
 import { useEffect, useRef } from "react";
 import { Link, Outlet } from "react-router-dom";
+import { layoutService } from "../services/LayoutService";
+import { useObservable } from "../utils/hooks";
 import "./Layout.css";
 
 function Layout() {
     const drawerRef = useRef<Drawer>(null);
+    const actionItems = useObservable(layoutService.actionItems$, <></>);
+    const title = useObservable(layoutService.title$, <span>Hello, World!</span>);
 
     const handleNavigationClick = () => {
         if (drawerRef.current) {
@@ -20,6 +24,7 @@ function Layout() {
 
     useEffect(() => {
         const drawer = drawerRef.current;
+
         drawer?.addEventListener("MDCTopAppBar:nav", handleNavigationClick);
         return () => {
             drawer?.removeEventListener("MDCTopAppBar:nav", handleNavigationClick);
@@ -45,8 +50,12 @@ function Layout() {
             </mwc-list>
             <div slot="appContent">
                 <mwc-top-app-bar-fixed dense>
-                    <div id="layout-title" slot="title"></div>
-                    <div id="layout-actionItems" slot="actionItems"></div>
+                    <div id="layout-title" slot="title">
+                        {title}
+                    </div>
+                    <div id="layout-actionItems" slot="actionItems">
+                        {actionItems}
+                    </div>
                     <mwc-icon-button icon="menu" slot="navigationIcon" />
                     <Outlet />
                 </mwc-top-app-bar-fixed>

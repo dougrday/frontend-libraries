@@ -1,12 +1,20 @@
 import { useEffect } from "react";
 import { helloWorldService } from "shared/lib/public-api";
-import { useObservable, useTitle } from "../../utils/hooks";
+import { layoutService } from "../../services/LayoutService";
+import { useObservable } from "../../utils/hooks";
 import "./HelloWorld.css";
 import HelloWorldForm from "./HelloWorldForm";
+import HelloWorldGenerator from "./HelloWorldGenerator";
 import HelloWorldList from "./HelloWorldList";
 
 function HelloWorld() {
-    useTitle(<span>Hello, world!</span>);
+    layoutService.setTitle(<span>Hello, world!</span>);
+    layoutService.setActionItems(
+        <>
+            <HelloWorldGenerator />
+        </>,
+    );
+
     const hasMessages = useObservable(helloWorldService.hasMessages$, false);
     const totalMessages = useObservable(helloWorldService.totalMessages$, 0);
 

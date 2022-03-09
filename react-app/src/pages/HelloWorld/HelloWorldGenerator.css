@@ -1,0 +1,16 @@
+.items {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+}
+
+mwc-list-item mwc-icon {
+    visibility: hidden;
+}
+mwc-list-item:hover mwc-icon {
+    visibility: visible;
+}
+mwc-icon:hover {
+    color: var(--mdc-theme-primary, #0055cc);
+    cursor: pointer;
+}

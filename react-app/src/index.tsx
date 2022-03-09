@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Layout from "./pages/Layout";
-import Home from "./pages/Home";
+import "./index.css";
 import HelloWorld from "./pages/HelloWorld/HelloWorld";
+import Home from "./pages/Home";
+import Layout from "./pages/Layout";
+import reportWebVitals from "./reportWebVitals";
 
 declare global {
     namespace JSX {
@@ -16,6 +16,7 @@ declare global {
             "mwc-icon-button": any;
             "mwc-list": any;
             "mwc-list-item": any;
+            "mwc-snackbar": any;
             "mwc-textfield": any;
             "mwc-top-app-bar-fixed": any;
         }

@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
-import { useTitle } from "../utils/hooks";
+import { layoutService } from "../services/LayoutService";
 import "./Home.css";
 
 function Home() {
-    useTitle(<span>Home(r)</span>);
+    layoutService.setTitle(<span>Home(r)</span>);
+    layoutService.setActionItems(
+        <>
+            <mwc-icon-button icon="file_download" />
+            <mwc-icon-button icon="print" />
+            <mwc-icon-button icon="favorite" />
+        </>,
+    );
 
     return (
         <>
