@@ -13,18 +13,14 @@ To start the backend, run `npm run server`.
 
 The server runs on port `5000`, and you can do a simple GET search at http://localhost:5000/hello-world.
 
-# React with TypeScript
-
-To run the React example, run `npm run react`.
-
-Then, open a browser to http://localhost:3000
-
-# Svelte
-
-To run the Svelte example, run `npm run svelte`.
-
-Then, open a browser to http://localhost:8080
+<br />
 
 # Start Everything
 
 To run all examples at once, run `npm start`.
+
+<br />
+
+# Findings
+
+[Findings here](./findings.md)
