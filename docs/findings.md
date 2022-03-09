@@ -10,8 +10,8 @@
 
 ## Performance
 
-| Framework | Performance - Lighthouse |             DevTools Performance             |
-| :-------: | :----------------------: | :------------------------------------------: |
-|  Angular  |            59            | <img src="./images/angular-performance.png"> |
-|   React   |            96            |  <img src="./images/react-performance.png">  |
-|  Svelte   |            97            | <img src="./images/svelte-performance.png">  |
+| Framework | Performance - Lighthouse |             DevTools Performance              |
+| :-------: | :----------------------: | :-------------------------------------------: |
+|  Angular  |            59            | <img src="../images/angular-performance.png"> |
+|   React   |            96            |  <img src="../images/react-performance.png">  |
+|  Svelte   |            97            | <img src="../images/svelte-performance.png">  |

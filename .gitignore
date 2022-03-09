@@ -2,6 +2,7 @@
 **/generated
 **/out
 **/tmp
+**/build
 server/*
 server/src/*
 server/src/Org.OpenAPITools/*
