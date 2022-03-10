@@ -13,12 +13,10 @@ function Home() {
     );
 
     return (
-        <>
-            <div className="centered">
-                <img alt="Homer" src="/images/homer.jpg" />
-                <Link to="/hello-world">Hello, World!</Link>
-            </div>
-        </>
+        <div className="centered">
+            <img alt="Homer" src="/images/homer.jpg" />
+            <Link to="/hello-world">Hello, World!</Link>
+        </div>
     );
 }
 
