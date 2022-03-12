@@ -10,9 +10,9 @@
                 <app-hello-world-form></app-hello-world-form>
             </div>
         </div>
-        <ng-container *ngIf="totalMessages$ | async; let totalMessages">
+        <ng-container *ngIf="helloWorldService.totalMessages$ | async; let totalMessages">
             <div *ngIf="totalMessages > 0">
-                <h2>Who's Said Hello ({{totalMessages}})</h2>
+                <h2>Who's Said Hello ({{ totalMessages }})</h2>
                 <div class="mdc-card list">
                     <app-hello-world-list></app-hello-world-list>
                 </div>
