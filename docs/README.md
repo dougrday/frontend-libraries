@@ -52,7 +52,7 @@ Our experiment goals are the following:
 
 ## Generated Code
 
-The `npm install` command generates both backend and frontend code from the [OpenAPI specification here](../openapi.yml).
+The `npm install` command generates both backend and frontend code from the [OpenAPI specification](../openapi.yml).
 
 ### Frontend Code
 
