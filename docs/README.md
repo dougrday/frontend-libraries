@@ -41,7 +41,7 @@ Our experiment goals are the following:
 1. Implement the same, simple frontend application using each candidate library:
    * React (`react` folder)
    * Svelte (`svelte` folder)
-   * Angular (`angular` folder, not a candidate but included for comparison)
+   * Angular (`angular` folder)
 2. Utilize OpenAPI to generate models and APIs for each application (`shared` folder).
 3. Utilize OpenAPI to generate a backend that satisfies the API contract.
    * Spring Web (`backend` folder)
