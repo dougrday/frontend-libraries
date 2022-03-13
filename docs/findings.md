@@ -73,7 +73,7 @@ Pros
 - ✔ Easy to learn and use
 - ✔ Powerful and customizable
 - ✔ Performant and fast
-- ✔ Hooks allow you to compose and reuse common patterns
+- ✔ Hooks promote composition and pattern reuse
 
 Cons
 
