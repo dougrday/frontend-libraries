@@ -50,8 +50,8 @@ Our experiment goals are the following:
 
 ## Not Included
 
-* Vue - not included as it solves problems in a similar way to React and Svelte, with no clear advantages.
-* SolidJS - not included as its too new, with very little adoption.
+* Vue - solves problems in a similar way to React and Svelte, with no clear advantages.
+* SolidJS - too new, with very little adoption.
 * Alpine.js - not well-adopted and doesn't provide as clear performance benefits as promised.
 * Lit - too low-level for application development.
 * Preact - uses the same API as React, offered as a better-performing alternative. Not included as it's
