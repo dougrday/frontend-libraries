@@ -73,13 +73,13 @@ Pros
 - ✔ Easy to learn and use
 - ✔ Powerful and customizable
 - ✔ Performant and fast
+- ✔ Hooks are very powerful
 
 Cons
 
-- ❌ JSX is required for a decent developer experience
 - ❌ Virtual DOM makes using Web Components difficult
-- ❌ Integrating with RxJS isn't out-of-the-box
-- ❌ Poorer performance than Svelte
+- ❌ JSX is required for a decent developer experience
+- ❌ Hooks aren't easy for new developers to understand
 
 ### Svelte
 
@@ -89,16 +89,15 @@ Pros
 - ✔ Provides value at compile-time, rather than runtime
 - ✔ Incredibly small and performant
 - ✔ Easy to learn and use
-- ✔ Natively uses Observer patterns, compatible with RxJS
+- ✔ Natively uses Observer patterns (RxJS-compatible)
 - ✔ Works well with Web Components
-- ✔ Write more with fewer lines of code
-- ✔ Less complex lifecycle events than other frameworks
+- ✔ Fewest lines of code to implement
+- ✔ Fewer complex lifecycle events than other frameworks
 
 Cons
 
 - ❌ New, with a smaller community
 - ❌ Has less maturity than other frameworks
-- ❌ Tooling and integrations aren't as well-established (e.g. TypeScript support is fairly new)
 
 ## Conclusion
 

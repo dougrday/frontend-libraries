@@ -23,7 +23,7 @@ class HelloWorldService {
     private readonly pageSize = 10;
 
     constructor() {
-        // Keep "hasMessages" up-to-date
+        // Keep "hasMessages$" up-to-date
         this.totalMessagesSubject$.pipe(map((total) => total > 0)).subscribe(this.hasMessagesSubject$);
     }
 
