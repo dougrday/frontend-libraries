@@ -62,7 +62,7 @@ Cons
 - ❌ Steeper learning curve
 - ❌ More complex than other solutions
 - ❌ Poorer size and performance
-- ❌ Poor developer satisfaction (according to 2021 stateofjs.com report)
+- ❌ [Poor developer satisfaction](https://2021.stateofjs.com/en-US/libraries/front-end-frameworks/#front_end_frameworks_experience_ranking)
 
 ### React
 
