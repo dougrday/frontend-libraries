@@ -4,9 +4,9 @@
     "private": true,
     "scripts": {
         "angular": "cd angular && npm start",
-        "postinstall": "openapi-generator-cli generate -i openapi.yml -g aspnetcore -o ./server && openapi-generator-cli generate -i openapi.yml -g typescript-rxjs -o ./shared/src/generated/hello-world",
+        "postinstall": "openapi-generator-cli generate -i openapi.yml -g spring -o ./server && openapi-generator-cli generate -i openapi.yml -g typescript-rxjs -o ./shared/src/generated/hello-world",
         "react": "cd react && npm start",
-        "server": "cd server && docker build -t backend-server -f ./src/Org.OpenAPITools/Dockerfile . && docker run -d -p 5000:8080 backend-server",
+        "server": "cd server && docker build -t backend-server . && docker run -d -p 5000:8080 backend-server",
         "shared": "cd shared && npm run build",
         "start": "concurrently \"npm run server\" \"npm run shared\" \"npm run svelte\" \"npm run react\" \"npm run angular\"",
         "svelte": "cd svelte && npm run dev"
