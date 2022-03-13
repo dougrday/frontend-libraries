@@ -63,7 +63,13 @@ The frontend code is in the `shared` folder, under `src/generated`. In particula
 
 ### Backend Code
 
-The backend code is in the `server` folder. The entire folder is generated from the OpenAPI specification.
+The backend code is in the `server` folder. The entire folder is generated from the OpenAPI specification. It generates
+and entire Spring Boot application, including:
+
+* Models used by the contract
+* API interfaces
+* Sample controller classes
+* Sample security configuration
 
 There are a few files that are committed to source control, and won't be overwritten when regenerating the code from
 the OpenAPI spec.
