@@ -69,7 +69,7 @@ Cons
 Pros
 
 - ✔ Component-based
-- ✔ Industry-standard (#1), large & active community
+- ✔ Industry-standard (1st in overall usage), large & active community
 - ✔ Easy to learn and use
 - ✔ Powerful and customizable
 - ✔ Performant and fast
