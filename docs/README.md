@@ -1,11 +1,31 @@
 # Frontend Libraries with OpenAPI
 
+## Getting Started
+
+To run the following experiment, you'll need the following installed:
+
+1. Node.js version 16 or higher
+2. Docker version 17 or higher
+
+### Start Everything
+
+To run all examples at once, run:
+
+```bash
+npm install
+npm start
+```
+
 ## Goals
 
+Our experiment goals are the following:
+
 1. Compare & contrast candidate frontend libraries in 2022.
-1. Measure developer experience with OpenAPI-generated tooling.
-1. Profile and measure size and performance characteristics of each candidate.
-1. Determine library compatibility with Design system technologies like Web Components and Storybook.
+2. Generate as much frontend code as possible using OpenAPI tooling.
+3. Generate as much backend code as possible using OpenAPI tooling.
+4. Create the best frontend developer experience we can using OpenAPI, and measure it with each library candidate.
+5. Profile and measure size and performance characteristics of each frontend library candidate.
+6. Determine library compatibility with Design system technologies like Web Components and Storybook.
 
 ## Approach
 
@@ -15,7 +35,7 @@
    * Angular (`angular` folder, not a candidate but included for comparison)
 2. Utilize OpenAPI to generate models and APIs for each application (`shared` folder).
 3. Utilize OpenAPI to generate a backend that satisfies the API contract.
-   * C# Backend (`backend` folder)
+   * Spring Web (`backend` folder)
 4. Utilize Material Web Components library to demonstrate utilization of Web Components.
 5. Measure and profile size and performance characteristics.
 
@@ -28,19 +48,6 @@
 
 <br />
 
-# Start Everything
-
-To run all examples at once, run:
-
-```bash
-npm install
-npm start
-```
-
-<br />
-
 # Results
 
 The results of the experiment can be [found here](./findings.md).
-
-
