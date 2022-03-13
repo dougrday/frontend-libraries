@@ -38,7 +38,7 @@ Our experiment goals are the following:
 
 ## Approach
 
-1. Implement the same application using each candidate library:
+1. Implement the same, simple frontend application using each candidate library:
    * React (`react` folder)
    * Svelte (`svelte` folder)
    * Angular (`angular` folder, not a candidate but included for comparison)
@@ -56,6 +56,19 @@ Our experiment goals are the following:
 * Lit - too low-level for application development.
 * Preact - uses the same API as React, offered as a better-performing alternative. Not included as it's
   really just React with better performance.
+
+## What's in the OpenAPI contract?
+
+The [OpenAPI contract](../openapi.yml) contains a simple model, `HelloWorld` that contains an `id` and `name`.
+
+The remainder of the contract defines a standard set of REST CRUD operations with
+the following paths:
+
+* GET /hello-world - gets a paginated list of `HelloWorld` messages.
+* GET /hello-world/:id - gets a single `HelloWorld` message.
+* POST /hello-world - creates a new `HelloWorld` message.
+* PUT /hello-world/:id - updates an existing `HelloWorld` message.
+* DELETE /hello-world/:id - deletes an existing `HelloWorld` message.
 
 ## Generated Code
 
