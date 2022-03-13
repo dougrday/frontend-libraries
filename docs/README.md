@@ -16,6 +16,13 @@ npm install
 npm start
 ```
 
+### What runs?
+
+* `backend` - runs on port 5000 (http://localhost:5000/hello-world)
+* `react` - runs on port 3000 (http://localhost:3000)
+* `svelte` - runs on port 8080 (http://localhost:8080)
+* `angular` - runs on port 4200 (http://localhost:4200)
+
 ## Goals
 
 Our experiment goals are the following:
@@ -38,13 +45,6 @@ Our experiment goals are the following:
    * Spring Web (`backend` folder)
 4. Utilize Material Web Components library to demonstrate utilization of Web Components.
 5. Measure and profile size and performance characteristics.
-
-# What's included?
-
-* `backend` - runs on port 5000 (http://localhost:5000/hello-world)
-* `react` - runs on port 3000 (http://localhost:3000)
-* `svelte` - runs on port 8080 (http://localhost:8080)
-* `angular` - runs on port 4200 (http://localhost:4200)
 
 <br />
 
