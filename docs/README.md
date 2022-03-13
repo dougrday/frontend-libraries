@@ -40,6 +40,8 @@ Our experiment goals are the following:
    * React (`react` folder)
    * Svelte (`svelte` folder)
    * Angular (`angular` folder, not a candidate but included for comparison)
+   * NOTE: Vue was not included since it solves problems in a similar way to React and Svelte, with no clear advantages.
+     If that changes, we may look into Vue again in the future.
 2. Utilize OpenAPI to generate models and APIs for each application (`shared` folder).
 3. Utilize OpenAPI to generate a backend that satisfies the API contract.
    * Spring Web (`backend` folder)
