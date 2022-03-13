@@ -23,6 +23,8 @@ npm start
 * `svelte` - runs on port 8080 (http://localhost:8080)
 * `angular` - runs on port 4200 (http://localhost:4200)
 
+So, please ensure you have nothing running on port `5000`, `3000`, `8080`, or `4200` prior to running `npm start`.
+
 ## Goals
 
 Our experiment goals are the following:
