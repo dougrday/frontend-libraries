@@ -81,6 +81,11 @@ The frontend code is in the `shared` folder, under `src/generated`. In particula
 * Models used by the contract
 * API classes that can be used directly by consumers
 
+Wireup for this code was accomplished by creating 2 files:
+
+* [api-configuration.ts](../shared/src/api-configuration.ts) - configuration for auto-generated API classes.
+* [api.ts](../shared/src/api.ts) - exposes API classes as singletons.
+
 ### Backend Code
 
 The backend code is in the `server` folder. The entire folder is generated from the OpenAPI specification.
