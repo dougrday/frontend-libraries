@@ -51,12 +51,14 @@ Each library had its own set of pros/cons. Let's look at each of them:
 ### Angular
 
 Pros
+
 - ✔ Component-based
 - ✔ Provides everything you need out-of-the-box (e.g. routing, forms, etc.)
 - ✔ High adoption, 3rd overall behind Vue
 - ✔ Written & maintained by Google
 
 Cons
+
 - ❌ Steeper learning curve
 - ❌ More complex than other solutions
 - ❌ Poorer size and performance
@@ -65,6 +67,7 @@ Cons
 ### React
 
 Pros
+
 - ✔ Component-based
 - ✔ Industry-standard (#1), large & active community
 - ✔ Easy to learn and use
@@ -72,6 +75,7 @@ Pros
 - ✔ Performant and fast
 
 Cons
+
 - ❌ JSX is required for a decent developer experience
 - ❌ Virtual DOM makes using Web Components difficult
 - ❌ Integrating with RxJS isn't out-of-the-box
@@ -80,6 +84,7 @@ Cons
 ### Svelte
 
 Pros
+
 - ✔ Component-based
 - ✔ Provides value at compile-time, rather than runtime
 - ✔ Incredibly small and performant
@@ -87,20 +92,24 @@ Pros
 - ✔ Natively uses Observer patterns, compatible with RxJS
 - ✔ Works well with Web Components
 - ✔ Write more with fewer lines of code
+- ✔ Less complex lifecycle events than other frameworks
 
 Cons
+
 - ❌ New, with a smaller community
 - ❌ Has less maturity than other frameworks
-- ❌ Less complex lifecycle events than other frameworks
+- ❌ Tooling and integrations aren't as well-established (e.g. TypeScript support is fairly new)
 
 ## Conclusion
 
 Svelte has excellent performance characteristics, very good developer experience, and is actively maintained.
 In particular, the experience around using Web Components is very good, especially when compared to React,
-which presents a fairly poor experience with Web Components.
-
-Svelte is the recommended frontend library moving forward.
+which presents a fairly poor experience with Web Components. Despite the fact that Svelte is new and not as
+well-adopted as its competitors, its developer experience, performance characteristics and simplicity are
+all excellent reasons to adopt Svelte.
 
 That said, if you value the proven success of React, its huge community, and the wide array of tooling
 available for it, then React is a close 2nd choice. If you plan to utilize Web Components (e.g. from a
 Design System), then Svelte will provide a better experience.
+
+*Svelte is the recommended frontend library moving forward, with React providing coming in at a close 2nd place.*
