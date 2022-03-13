@@ -81,7 +81,7 @@ and entire Spring Boot application, including:
 There are a few files that are committed to source control, and won't be overwritten when regenerating the code from
 the OpenAPI spec.
 
-In particular, you should pay attention to the [HelloWorldApiController.java](server/src/main/java/org/openapitools/api/HelloWorldApiController.java) file, which contains a sample in-memory implementation of the API contract. You'll also want to check the `HelloWorldApi.java` file,
+In particular, you should pay attention to the [HelloWorldApiController.java](../server/src/main/java/org/openapitools/api/HelloWorldApiController.java) file, which contains a sample in-memory implementation of the API contract. You'll also want to check the `HelloWorldApi.java` file,
 which contains the actual API contract.
 
 <br />
