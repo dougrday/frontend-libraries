@@ -83,21 +83,25 @@ The frontend code is in the `shared` folder, under `src/generated`. In particula
 
 ### Backend Code
 
-The backend code is in the `server` folder. The entire folder is generated from the OpenAPI specification. It generates a complete Spring Boot application, including:
+The backend code is in the `server` folder. The entire folder is generated from the OpenAPI specification.
+It generates a complete Spring Boot application, including:
 
 * Models used by the contract
 * API interfaces
 * Sample controller classes
 * Sample security configuration
 
-There are a few files that are committed to source control, and won't be overwritten when regenerating the code from
-the OpenAPI spec.
+There are a few files that are committed to source control, and won't be overwritten when regenerating
+the code from the OpenAPI spec.
 
-To implement a basic stub for the contract, only the [HelloWorldApiController.java](../server/src/main/java/org/openapitools/api/HelloWorldApiController.java) and [OpenAPI2SpringBoot.java](../server/src/main/java/org/openapitools/OpenAPI2SpringBoot.java) 
-files needed to be modified. The controller includes a basic in-memory stub to demonstrate the contract. The
-OpenAPI2SpringBoot.java file required slight modification to configure CORS.
+To implement a basic stub for the contract, only the
+[HelloWorldApiController.java](../server/src/main/java/org/openapitools/api/HelloWorldApiController.java) and
+[OpenAPI2SpringBoot.java](../server/src/main/java/org/openapitools/OpenAPI2SpringBoot.java) files needed
+to be modified. The controller includes a basic in-memory stub to demonstrate the contract. The 
+[OpenAPI2SpringBoot.java](../server/src/main/java/org/openapitools/OpenAPI2SpringBoot.java#L45-L50) file
+required slight modification to configure CORS.
 
-You'll also want to look at the `HelloWorldApi.java` file, which contains the actual API contract.
+You'll also want to look at the `HelloWorldApi.java` file, which contains the majority of the API contract.
 
 <br />
 
