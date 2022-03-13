@@ -97,7 +97,7 @@ Pros
 Cons
 
 - ❌ New, with a smaller community
-- ❌ Has less maturity than other frameworks
+- ❌ Not as battle-tested as other frameworks
 
 ## Conclusion
 
