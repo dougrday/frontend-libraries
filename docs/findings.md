@@ -111,4 +111,6 @@ That said, if you value the proven success of React, its huge community, and the
 available for it, then React is a close 2nd choice. If you plan to utilize Web Components (e.g. from a
 Design System), then Svelte will provide a better experience.
 
-*Svelte is the recommended frontend library moving forward, with React providing coming in at a close 2nd place.*
+## *Svelte is the recommended frontend library moving forward*
+
+With React coming in at a close 2nd place.
