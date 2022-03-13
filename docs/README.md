@@ -42,13 +42,20 @@ Our experiment goals are the following:
    * React (`react` folder)
    * Svelte (`svelte` folder)
    * Angular (`angular` folder, not a candidate but included for comparison)
-   * NOTE: Vue was not included since it solves problems in a similar way to React and Svelte, with no clear advantages.
-     If that changes, we may look into Vue again in the future.
 2. Utilize OpenAPI to generate models and APIs for each application (`shared` folder).
 3. Utilize OpenAPI to generate a backend that satisfies the API contract.
    * Spring Web (`backend` folder)
 4. Utilize Material Web Components library to demonstrate utilization of Web Components.
 5. Measure and profile size and performance characteristics.
+
+## Not Included
+
+* Vue - not included as it solves problems in a similar way to React and Svelte, with no clear advantages.
+* SolidJS - not included as its too new, with very little adoption.
+* Alpine.js - not well-adopted and doesn't provide as clear performance benefits as promised.
+* Lit - too low-level for application development.
+* Preact - uses the same API as React, offered as a better-performing alternative. Not included as it's
+  really just React with better performance.
 
 ## Generated Code
 
