@@ -1,5 +1,17 @@
 # Findings
 
+## TL;DR
+
+Svelte has excellent performance characteristics, very good developer experience, and is actively maintained.
+In particular, the experience around using Web Components is very good, especially when compared to React,
+which presents a fairly poor experience with Web Components.
+
+Svelte is the recommended frontend library moving forward.
+
+That said, if you value the proven success of React, its huge community, and the wide array of tooling
+available for it, then React is a close 2nd choice. If you plan to utilize Web Components (e.g. from a
+Design System), then Svelte will provide a better experience.
+
 ## Bundle Sizes
 
 | Framework | Bundle Size (raw) | Bundle Size (gzip) |
@@ -19,6 +31,10 @@
 ### Web Vitals
 
 <img src="./images/webvitals.png">
+
+### Usage Trends
+
+<img src="./images/npmtrends.png">
 
 ### Other
 
@@ -41,25 +57,47 @@ Don't read too much into these numbers, as alone they don't mean much.
 
 Each library had its own set of pros/cons. Let's look at each of them:
 
-### React
-
-Pros
-- ✔ Industry-standard, well-supported, the most popular framework
-- ✔ Easy to learn and use
-- ✔ Hooks are powerful and customizable
-- ✔ High performance
-
-Cons
-- ❌ Using Web Components is difficult, as React uses the Virtual DOM and synthentic events aren't compatible with native web component events
-- ❌ Building and customizing page templates isn't easy or simple
-- ❌ Integrating with RxJS isn't out-of-the-box
-
 ### Angular
 
 Pros
-- ✔ Provides everything you need, including form management (Reactive Forms) and routing
-- ✔ More difficult to put together, needed more in-depth knowledge of the innards of Angular
+- ✔ Component-based
+- ✔ Provides everything you need out-of-the-box (e.g. routing, forms, etc.)
+- ✔ High adoption, 3rd overall behind Vue
+- ✔ Written & maintained by Google
 
 Cons
-- ❌ Poorer performance
-- ❌ Less developer satisfaction (according to 2021 stateofjs.com report)
+- ❌ Steeper learning curve
+- ❌ More complex than other solutions
+- ❌ Poorer size and performance
+- ❌ Poor developer satisfaction (according to 2021 stateofjs.com report)
+
+### React
+
+Pros
+- ✔ Component-based
+- ✔ Industry-standard (#1), large & active community
+- ✔ Easy to learn and use
+- ✔ Powerful and customizable
+- ✔ Performant and fast
+
+Cons
+- ❌ JSX is required for a decent developer experience
+- ❌ Virtual DOM makes using Web Components difficult
+- ❌ Integrating with RxJS isn't out-of-the-box
+- ❌ Poorer performance than Svelte
+
+### Svelte
+
+Pros
+- ✔ Component-based
+- ✔ Provides value at compile-time, rather than runtime
+- ✔ Incredibly small and performant
+- ✔ Easy to learn and use
+- ✔ Natively uses Observer patterns, compatible with RxJS
+- ✔ Works well with Web Components
+- ✔ Write more with fewer lines of code
+
+Cons
+- ❌ New, with a smaller community
+- ❌ Has less maturity than other frameworks
+- ❌ Less complex lifecycle events than other frameworks
