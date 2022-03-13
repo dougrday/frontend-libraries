@@ -18,10 +18,10 @@ npm start
 
 ### What runs?
 
+* `angular` - runs on port 4200 (http://localhost:4200)
 * `backend` - runs on port 5000 (http://localhost:5000/hello-world)
 * `react` - runs on port 3000 (http://localhost:3000)
 * `svelte` - runs on port 8080 (http://localhost:8080)
-* `angular` - runs on port 4200 (http://localhost:4200)
 
 So, please ensure you have nothing running on port `5000`, `3000`, `8080`, or `4200` prior to running `npm start`.
 
@@ -39,9 +39,9 @@ Our experiment goals are the following:
 ## Approach
 
 1. Implement the same, simple frontend application using each candidate library:
+   * Angular (`angular` folder)
    * React (`react` folder)
    * Svelte (`svelte` folder)
-   * Angular (`angular` folder)
 2. Utilize OpenAPI to generate models and APIs for each application (`shared` folder).
 3. Utilize OpenAPI to generate a backend that satisfies the API contract.
    * Spring Web (`backend` folder)
