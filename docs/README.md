@@ -50,6 +50,27 @@ Our experiment goals are the following:
 4. Utilize Material Web Components library to demonstrate utilization of Web Components.
 5. Measure and profile size and performance characteristics.
 
+## Generated Code
+
+The `npm install` command generates both backend and frontend code from the [OpenAPI specification here](../openapi.yml).
+
+### Frontend Code
+
+The frontend code is in the `shared` folder, under `src/generated`. In particular, it generates:
+
+* Models used by the contract
+* API classes that can be used directly by consumers
+
+### Backend Code
+
+The backend code is in the `server` folder. The entire folder is generated from the OpenAPI specification.
+
+There are a few files that are committed to source control, and won't be overwritten when regenerating the code from
+the OpenAPI spec.
+
+In particular, you should pay attention to the [HelloWorldApiController.java](server/src/main/java/org/openapitools/api/HelloWorldApiController.java) file, which contains a sample in-memory implementation of the API contract. You'll also want to check the `HelloWorldApi.java` file,
+which contains the actual API contract.
+
 <br />
 
 # Results
