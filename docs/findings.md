@@ -102,4 +102,4 @@ Cons
 ## Conclusion
 
 If you plan to utilize many Web Components in your frontends, *choose Svelte*.
-Otherwise, *use React*.
+Otherwise, *choose React*.
