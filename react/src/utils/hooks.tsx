@@ -33,7 +33,7 @@ export const useForm = (submitCallback: any, fields: any) => {
             setAllowSubmit(false);
             submitCallback();
         }
-    });
+    }, [allowSubmit, setAllowSubmit, submitCallback]);
 
     return [submitForm, formData, setFormValues];
 };
