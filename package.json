@@ -9,7 +9,7 @@
         "server": "cd server && docker build -t backend-server . && docker run -d -p 5000:8080 backend-server",
         "shared": "cd shared && npm run build",
         "start": "concurrently \"npm run server\" \"npm run shared\" \"npm run svelte\" \"npm run react\" \"npm run angular\"",
-        "svelte": "cd svelte && npm run dev"
+        "svelte": "cd svelte && npm start"
     },
     "devDependencies": {
         "@openapitools/openapi-generator-cli": "^2.4.26",

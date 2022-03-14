@@ -5,7 +5,7 @@
     "scripts": {
         "build": "rollup -c",
         "dev": "rollup -c -w",
-        "start": "sirv public --no-clear",
+        "start": "open-cli http://localhost:8080 --background && sirv public --no-clear",
         "check": "svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
         "lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
@@ -41,6 +41,7 @@
         "@material/mwc-snackbar": "^0.25.3",
         "@material/mwc-textfield": "^0.25.3",
         "@material/mwc-top-app-bar-fixed": "^0.25.3",
+        "open-cli": "^7.0.1",
         "rxjs": "^6.6.7",
         "sirv-cli": "^2.0.0",
         "svelte-spa-router": "^3.2.0",
