@@ -3,6 +3,7 @@
 **/out
 **/tmp
 **/build
+karate.jar
 server/*
 server/src/*
 server/src/main/*
@@ -21,3 +22,4 @@ server/src/main/java/org/openapitools/api/*
 !server/src/main/java/org/openapitools/api
 !server/src/main/java/org/openapitools/api/HelloWorldApiController.java
 shared/lib
+target

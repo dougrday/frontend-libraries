@@ -4,10 +4,13 @@
     "private": true,
     "scripts": {
         "angular": "cd angular && npm start",
-        "postinstall": "openapi-generator-cli generate -i openapi.yml -g spring -o ./server && openapi-generator-cli generate -i openapi.yml -g typescript-rxjs -o ./shared/src/generated/hello-world",
+        "karate:download": "curl https://github.com/karatelabs/karate/releases/download/v1.1.0/karate-1.1.0.jar -L -C - --output ./karate.jar",
+        "postinstall": "npm run karate:download && npm run server:generate && npm run shared:generate",
         "react": "cd react && npm start",
         "server": "cd server && docker build -t backend-server . && docker run -d -p 5000:8080 backend-server",
+        "server:generate": "openapi-generator-cli generate -i openapi.yml -g spring -o ./server",
         "shared": "cd shared && npm run build",
+        "shared:generate": "openapi-generator-cli generate -i openapi.yml -g typescript-rxjs -o ./shared/src/generated/hello-world",
         "start": "concurrently \"npm run server\" \"npm run shared\" \"npm run svelte\" \"npm run react\" \"npm run angular\"",
         "svelte": "cd svelte && npm start"
     },
