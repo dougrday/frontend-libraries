@@ -90,7 +90,6 @@ Pros
 - ✔ Easy to learn and use
 - ✔ Natively uses Observer patterns (RxJS-compatible)
 - ✔ Works well with Web Components
-- ✔ Fewest lines of code to implement
 - ✔ Fewer complex lifecycle events than other frameworks
 
 Cons
