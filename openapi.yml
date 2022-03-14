@@ -6,6 +6,11 @@ info:
 tags:
   - name: hello-world
     description: A "Hello World!" API
+
+servers:
+  - url: https://localhost
+    description: Local API
+
 components:
   parameters:
     connectionId:
@@ -78,8 +83,8 @@ components:
             $ref: "#/components/schemas/ErrorMessage"
   securitySchemes:
     userAuth:
-      type: openIdConnect
-      openIdConnectUrl: "https://mclabstest.oktapreview.com/oauth2/default/.well-known/openid-configuration"
+      type: http
+      scheme: bearer
   schemas:
     ErrorModel:
       type: object
