@@ -1,6 +1,6 @@
 import { BehaviorSubject, of, throwError } from "rxjs";
 import { AjaxResponse } from "rxjs/ajax";
-import { shareReplay, tap, map, withLatestFrom, catchError, switchMap } from "rxjs/operators";
+import { catchError, map, shareReplay, tap } from "rxjs/operators";
 import { helloWorldApi } from "../api";
 import { CreateHelloWorldRequest, DeleteHelloWorldRequest } from "../generated/hello-world";
 import { HelloWorld } from "../generated/hello-world/models/HelloWorld";
@@ -11,8 +11,14 @@ class HelloWorldService {
     }
 
     private messagesSubject$ = new BehaviorSubject<HelloWorld[]>([]);
+    public get messages() {
+        return this.messagesSubject$.value;
+    }
     public get messages$() {
         return this.messagesSubject$.asObservable();
+    }
+    public get totalMessages() {
+        return this.totalMessagesSubject$.value;
     }
     public totalMessagesSubject$ = new BehaviorSubject(0);
     public get totalMessages$() {
@@ -79,10 +85,9 @@ class HelloWorldService {
             })
             .pipe(
                 shareReplay(1),
-                withLatestFrom(this.messagesSubject$),
-                tap(([{ pagination, results }, messages]) => {
+                tap(({ pagination, results }) => {
                     // Slice to ensure we cut off previosly-loaded data
-                    const previous = messages.slice(0, (this.page + 1) * this.pageSize);
+                    const previous = this.messagesSubject$.value.slice(0, (this.page + 1) * this.pageSize);
                     this.messagesSubject$.next(previous.concat(results));
 
                     if (results.length > 0) {
@@ -91,7 +96,6 @@ class HelloWorldService {
                     }
                     this.totalMessagesSubject$.next(pagination.totalResults);
                 }),
-                map(([response]) => response),
             );
     }
 }

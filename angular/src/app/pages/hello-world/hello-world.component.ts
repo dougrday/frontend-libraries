@@ -7,7 +7,9 @@ import { helloWorldService } from "shared";
     styleUrls: ["./hello-world.component.css"],
 })
 export class HelloWorldComponent implements OnInit {
-    helloWorldService = helloWorldService;
+    get totalMessages() {
+        return helloWorldService.totalMessages;
+    }
 
     ngOnInit(): void {
         helloWorldService.searchHelloWorlds().subscribe();
