@@ -2,8 +2,7 @@ import { Component, ElementRef, OnInit } from "@angular/core";
 import "@material/mwc-icon";
 import "@material/mwc-list/mwc-list";
 import "@material/mwc-list/mwc-list-item";
-import { Subject } from "rxjs";
-import { HelloWorld, helloWorldService } from "shared";
+import { helloWorldService } from "shared";
 
 @Component({
     selector: "app-hello-world-list",

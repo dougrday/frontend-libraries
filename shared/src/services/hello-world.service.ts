@@ -6,10 +6,10 @@ import { CreateHelloWorldRequest, DeleteHelloWorldRequest } from "../generated/h
 import { HelloWorld } from "../generated/hello-world/models/HelloWorld";
 
 class HelloWorldService {
-    private hasMessagesSubject$ = new BehaviorSubject(false);
     public get hasMessages$() {
-        return this.hasMessagesSubject$.asObservable();
+        return this.totalMessages$.pipe(map((total) => total > 0));
     }
+
     private messagesSubject$ = new BehaviorSubject<HelloWorld[]>([]);
     public get messages$() {
         return this.messagesSubject$.asObservable();
@@ -22,18 +22,12 @@ class HelloWorldService {
     private page = 0;
     private readonly pageSize = 10;
 
-    constructor() {
-        // Keep "hasMessages$" up-to-date
-        this.totalMessagesSubject$.pipe(map((total) => total > 0)).subscribe(this.hasMessagesSubject$);
-    }
-
     createHelloWorld(request: CreateHelloWorldRequest) {
         return helloWorldApi.createHelloWorld(request).pipe(
             shareReplay(1),
-            withLatestFrom(this.messagesSubject$, this.totalMessagesSubject$),
-            tap(([{ message }, messages, totalMessages]) => {
-                this.messagesSubject$.next(messages.concat(message));
-                this.totalMessagesSubject$.next((totalMessages ?? 0) + 1);
+            tap(({ message }) => {
+                this.messagesSubject$.next(this.messagesSubject$.value.concat(message));
+                this.totalMessagesSubject$.next(this.totalMessagesSubject$.value + 1);
             }),
         );
     }
@@ -49,16 +43,16 @@ class HelloWorldService {
                 }
                 return throwError(response);
             }),
-            withLatestFrom(this.messagesSubject$, this.totalMessagesSubject$),
-            tap(([_, messages, totalMessages]) => {
+            tap(() => {
                 // Ensure if new data is loaded, we start from
                 // the beginning
                 this.page = -1;
 
+                const messages = this.messagesSubject$.value;
                 const index = messages.findIndex((m) => m.id === request.helloWorldId);
                 messages.splice(index, 1);
                 this.messagesSubject$.next(messages);
-                this.totalMessagesSubject$.next(totalMessages - 1);
+                this.totalMessagesSubject$.next(this.totalMessagesSubject$.value - 1);
             }),
         );
     }

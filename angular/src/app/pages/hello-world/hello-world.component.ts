@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { Subject } from "rxjs";
 import { helloWorldService } from "shared";
 
 @Component({
