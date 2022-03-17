@@ -1,6 +1,6 @@
 <div class="items">
     <mwc-list rootTabbable>
-        <ng-container *ngFor="let message of helloWorldService.messages$ | async; index as messageIndex">
+        <ng-container *ngFor="let message of messages; index as messageIndex">
             <li *ngIf="messageIndex > 0" divider role="separator"></li>
             <mwc-list-item tabindex="0" hasMeta (keyup)="handleKeyUp($event, message.id)">
                 <span>Hello, {{ message.name }}!</span>

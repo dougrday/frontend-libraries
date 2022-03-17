@@ -1,8 +1,13 @@
-import { BehaviorSubject, of, throwError } from "rxjs";
+import { BehaviorSubject, Observable, of, throwError } from "rxjs";
 import { AjaxResponse } from "rxjs/ajax";
 import { catchError, map, shareReplay, tap } from "rxjs/operators";
 import { helloWorldApi } from "../api";
-import { CreateHelloWorldRequest, DeleteHelloWorldRequest } from "../generated/hello-world";
+import { Cached } from "../cached";
+import {
+    CreateHelloWorldRequest,
+    DeleteHelloWorldRequest,
+    HelloWorldSearchQueryResponseMessage,
+} from "../generated/hello-world";
 import { HelloWorld } from "../generated/hello-world/models/HelloWorld";
 
 class HelloWorldService {
@@ -27,6 +32,8 @@ class HelloWorldService {
 
     private page = 0;
     private readonly pageSize = 10;
+
+    private searchHelloWorldsCache$ = new Cached<Observable<HelloWorldSearchQueryResponseMessage>>();
 
     createHelloWorld(request: CreateHelloWorldRequest) {
         return helloWorldApi.createHelloWorld(request).pipe(
@@ -53,6 +60,7 @@ class HelloWorldService {
                 // Ensure if new data is loaded, we start from
                 // the beginning
                 this.page = -1;
+                this.searchHelloWorldsCache$.clear();
 
                 const messages = this.messagesSubject$.value;
                 const index = messages.findIndex((m) => m.id === request.helloWorldId);
@@ -64,14 +72,21 @@ class HelloWorldService {
     }
 
     searchHelloWorlds() {
-        return helloWorldApi.searchHelloWorlds({ page: 0, pageSize: this.pageSize }).pipe(
-            shareReplay(1),
-            tap(({ pagination, results }) => {
-                this.page = 0;
-                this.messagesSubject$.next(results);
-                this.totalMessagesSubject$.next(pagination.totalResults);
-            }),
-        );
+        let result$ = this.searchHelloWorldsCache$.get();
+        if (!result$) {
+            result$ = helloWorldApi.searchHelloWorlds({ page: 0, pageSize: this.pageSize }).pipe(
+                shareReplay(1),
+                tap(({ pagination, results }) => {
+                    this.page = 0;
+                    this.messagesSubject$.next(results);
+                    this.totalMessagesSubject$.next(pagination.totalResults);
+                }),
+            );
+            const expires = new Date();
+            expires.setSeconds(expires.getSeconds() + 10);
+            this.searchHelloWorldsCache$.set(result$, expires);
+        }
+        return result$;
     }
 
     searchNext() {
