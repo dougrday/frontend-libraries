@@ -12,30 +12,52 @@ import {
 import { HelloWorld } from "../generated/hello-world/models/HelloWorld";
 
 class HelloWorldService {
-    public get hasMessages$() {
-        return this.totalMessages$.pipe(map((total) => total > 0));
+    private messagesSubject$ = new BehaviorSubject<HelloWorld[]>([]);
+    private page = 0;
+    private readonly pageSize = 10;
+    private searchHelloWorldsCache$ = new Cached<Observable<HelloWorldSearchQueryResponseMessage>>();
+    private totalMessagesSubject$ = new BehaviorSubject(0);
+
+    /**
+     * Returns true if there are messages (either loaded or not)
+     */
+    public get hasMessages() {
+        return this.totalMessagesSubject$.value > 0;
     }
 
-    private messagesSubject$ = new BehaviorSubject<HelloWorld[]>([]);
+    /**
+     * Gets the current messages that have been loaded.
+     */
     public get messages() {
         return this.messagesSubject$.value;
     }
+
+    /**
+     * Gets an observable stream of messages that have been loaded.
+     */
     public get messages$() {
         return this.messagesSubject$.asObservable();
     }
+
+    /**
+     * Gets the number of total messages.
+     */
     public get totalMessages() {
         return this.totalMessagesSubject$.value;
     }
-    public totalMessagesSubject$ = new BehaviorSubject(0);
+
+    /**
+     * Gets an observable stream of the number of total messages.
+     */
     public get totalMessages$() {
         return this.totalMessagesSubject$.asObservable();
     }
 
-    private page = 0;
-    private readonly pageSize = 10;
-
-    private searchHelloWorldsCache$ = new Cached<Observable<HelloWorldSearchQueryResponseMessage>>();
-
+    /**
+     * Creates a new hello world message.
+     * @param request The request to create the message.
+     * @returns An observable stream of HelloWorldSaidEventMessage.
+     */
     createHelloWorld(request: CreateHelloWorldRequest) {
         return helloWorldApi.createHelloWorld(request).pipe(
             tap(({ message }) => {
@@ -46,6 +68,11 @@ class HelloWorldService {
         );
     }
 
+    /**
+     * Deletes a hello world message.
+     * @param request The request to delete the message.
+     * @returns An observable stream of HelloWorldDeletedEventMessage.
+     */
     deleteHelloWorld(request: DeleteHelloWorldRequest) {
         return helloWorldApi.deleteHelloWorld(request).pipe(
             catchError((response: AjaxResponse) => {
@@ -72,7 +99,12 @@ class HelloWorldService {
         );
     }
 
+    /**
+     * Searches for hello world messages.
+     * @returns An observable stream of HelloWorldSearchQueryResponseMessage.
+     */
     searchHelloWorlds() {
+        // Get the current response from cache, if available
         let result$ = this.searchHelloWorldsCache$.get();
         if (!result$) {
             result$ = helloWorldApi.searchHelloWorlds({ page: 0, pageSize: this.pageSize }).pipe(
@@ -83,6 +115,7 @@ class HelloWorldService {
                 }),
                 shareReplay(1),
             );
+            // Expire in 10 seconds
             const expires = new Date();
             expires.setSeconds(expires.getSeconds() + 10);
             this.searchHelloWorldsCache$.set(result$, expires);
@@ -90,6 +123,10 @@ class HelloWorldService {
         return result$;
     }
 
+    /**
+     * Searches the next page of hello world messages.
+     * @returns An observable stream of HelloWorldSearchQueryResponseMessage.
+     */
     searchNext() {
         if (this.page === -1) {
             return this.searchHelloWorlds();
@@ -111,6 +148,7 @@ class HelloWorldService {
                     }
                     this.totalMessagesSubject$.next(pagination.totalResults);
                 }),
+                //
                 shareReplay(1),
             );
     }
