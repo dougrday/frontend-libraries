@@ -6,6 +6,7 @@ import { Cached } from "../cached";
 import {
     CreateHelloWorldRequest,
     DeleteHelloWorldRequest,
+    HelloWorldDeletedEventMessage,
     HelloWorldSearchQueryResponseMessage,
 } from "../generated/hello-world";
 import { HelloWorld } from "../generated/hello-world/models/HelloWorld";
@@ -37,22 +38,21 @@ class HelloWorldService {
 
     createHelloWorld(request: CreateHelloWorldRequest) {
         return helloWorldApi.createHelloWorld(request).pipe(
-            shareReplay(1),
             tap(({ message }) => {
                 this.messagesSubject$.next(this.messagesSubject$.value.concat(message));
                 this.totalMessagesSubject$.next(this.totalMessagesSubject$.value + 1);
             }),
+            shareReplay(1),
         );
     }
 
     deleteHelloWorld(request: DeleteHelloWorldRequest) {
         return helloWorldApi.deleteHelloWorld(request).pipe(
-            shareReplay(1),
             catchError((response: AjaxResponse) => {
                 if (response.status === 404) {
                     // The message was already deleted
                     // so we need to remove it from the list
-                    return of({ id: request.helloWorldId } as HelloWorld);
+                    return of({ message: { id: request.helloWorldId } } as HelloWorldDeletedEventMessage);
                 }
                 return throwError(response);
             }),
@@ -68,6 +68,7 @@ class HelloWorldService {
                 this.messagesSubject$.next(messages);
                 this.totalMessagesSubject$.next(this.totalMessagesSubject$.value - 1);
             }),
+            shareReplay(1),
         );
     }
 
@@ -75,12 +76,12 @@ class HelloWorldService {
         let result$ = this.searchHelloWorldsCache$.get();
         if (!result$) {
             result$ = helloWorldApi.searchHelloWorlds({ page: 0, pageSize: this.pageSize }).pipe(
-                shareReplay(1),
                 tap(({ pagination, results }) => {
                     this.page = 0;
                     this.messagesSubject$.next(results);
                     this.totalMessagesSubject$.next(pagination.totalResults);
                 }),
+                shareReplay(1),
             );
             const expires = new Date();
             expires.setSeconds(expires.getSeconds() + 10);
@@ -99,7 +100,6 @@ class HelloWorldService {
                 pageSize: this.pageSize,
             })
             .pipe(
-                shareReplay(1),
                 tap(({ pagination, results }) => {
                     // Slice to ensure we cut off previosly-loaded data
                     const previous = this.messagesSubject$.value.slice(0, (this.page + 1) * this.pageSize);
@@ -111,6 +111,7 @@ class HelloWorldService {
                     }
                     this.totalMessagesSubject$.next(pagination.totalResults);
                 }),
+                shareReplay(1),
             );
     }
 }
