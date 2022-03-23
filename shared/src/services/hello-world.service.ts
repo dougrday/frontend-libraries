@@ -26,6 +26,13 @@ class HelloWorldService {
     }
 
     /**
+     * Returns an observable that emits true if there are messages, false otherwise.
+     */
+    public get hasMessages$() {
+        return this.totalMessagesSubject$.pipe(map((totalMessages) => totalMessages > 0));
+    }
+
+    /**
      * Gets the current messages that have been loaded.
      */
     public get messages() {

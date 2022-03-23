@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { helloWorldService } from "shared/lib/public-api";
+import { helloWorldService } from "shared";
 import { layoutService } from "../../services/LayoutService";
 import { useObservable } from "../../utils/hooks";
 import "./HelloWorld.css";

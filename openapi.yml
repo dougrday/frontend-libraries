@@ -56,6 +56,7 @@ components:
         minimum: 1
         maximum: 100
       description: The number of results included per page.
+
   responses:
     Forbidden:
       description: The user is not authorized to perform this operation.
@@ -81,10 +82,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorMessage"
+
   securitySchemes:
     userAuth:
       type: http
       scheme: bearer
+
   schemas:
     ErrorModel:
       type: object
@@ -209,8 +212,9 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/HelloWorld"
+
 paths:
-  /hello-world:
+  "/hello-world":
     get:
       summary: Searchs for hello world messages.
       operationId: searchHelloWorlds
@@ -288,6 +292,7 @@ paths:
         - userAuth: []
       tags:
         - hello-world
+
   "/hello-world/{helloWorldId}":
     delete:
       summary: Deletes a hello world message.

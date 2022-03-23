@@ -35,8 +35,8 @@ export class HelloWorldListComponent implements OnInit {
     // This demonstrates someone doing some bad
     // behavior, and the service caching values properly
     ngOnInit(): void {
-        interval(1000)
-            .pipe(switchMap(() => helloWorldService.searchHelloWorlds() as any))
-            .subscribe();
+        // interval(1000)
+        //     .pipe(switchMap(() => helloWorldService.searchHelloWorlds() as any))
+        //     .subscribe();
     }
 }
